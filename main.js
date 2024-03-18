@@ -12,7 +12,7 @@ let sprite = new Image();
 
 sprite.src = 'adventurer.png';
 
-const character = new Character(ctx, sprite, canvas);
+const character = new Character(ctx, canvas);
 const platform = new Platform(ctx, canvas, character);
 
 
@@ -67,6 +67,7 @@ document.addEventListener('keyup', keyUpHandler);
 }
 
 function keyUpHandler(e) {
+  
     if(e.key === "ArrowRight") {
       rightPressed = false;
       character.dx = 0;
@@ -80,7 +81,7 @@ function keyUpHandler(e) {
 
 
 
-let lastDy = 0;  // Variable para almacenar el valor de character.dy del frame anterior
+ 
  
 // Función para actualizar el juego cada frame
 function draw() {
@@ -89,20 +90,14 @@ function draw() {
     ctx.fillStyle = "rgba(144, 187, 133, 0.87)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+
     // Dibujar el personaje
     character.draw();
     platform.draw();
 
+    //choques
     plataformXcharacter();
     movePlatform();
-
-
-    characterinCanvas(); 
-    
-    //animacion segun tecla presionada
-    if(character.dx !==0)  character.dx > 0? character.direction = 1 : character.direction = -1;
-
-
 
     if (character.onGround === false) {
         character.jumpPressed();
@@ -112,35 +107,12 @@ function draw() {
         character.noMovement();
     }
     
-    //ajusta posicion del personaje
-    characterPosicion();
+    
 
     requestAnimationFrame(draw);
 }
 
-function characterinCanvas(){
-    if(character.x + character.dx > canvas.width-character.w || character.x + character.dx < 0 ) {
-        character.dx = 0;
-    }
-    if(character.y + character.dy > canvas.height-character.h || character.y + character.dy < character.h) {
-        character.dy = 0;
-    }
-}
 
-
-function characterPosicion(){
-    character.x += character.dx;
-    character.y += character.dy;  
-    character.dy += gravity ;
-
-    //onGround 
-    if (character.dy === lastDy) {
-        character.onGround = true;
-    } else {
-        lastDy = character.dy;  
-        character.onGround= false;
-    }
-};
 
 function plataformXcharacter(){
     if(platform.checkCollision(character)) {
