@@ -15,11 +15,13 @@ class Platform {
     }
 
     draw() {
+      
         this.ctx.beginPath();
         this.ctx.rect(this.x, this.y, this.width, this.height);
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
         this.ctx.closePath();
+        
     }
 
     checkCollision(character) {
