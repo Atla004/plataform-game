@@ -3,7 +3,6 @@ import {Platform} from './platform.js';
 // Configuración inicial
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
-var gravity = 0.5; // Fuerza de gravedad
 
 let rightPressed = false;
 let leftPressed = false;
