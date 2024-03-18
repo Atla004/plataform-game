@@ -5,7 +5,8 @@ let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 var gravity = 0.5; // Fuerza de gravedad
 
-
+let rightPressed = false;
+let leftPressed = false;
 
 let sprite = new Image();
 
@@ -15,75 +16,66 @@ const character = new Character(ctx, canvas);
 const platform = new Platform(ctx, canvas, character);
 
 
-let keys = {
-    ArrowRight: false,
-    ArrowLeft: false,
-};
 
-document.addEventListener('keydown', function(e) {
-    if (e.repeat) {
-        return;  // Ignora el evento si es una repetición
-    }
-    if (e.key in keys) {
-        keys[e.key] = true;
-    }
-    keyDownHandler(e);  // Llama a tu función existente
-});
+document.addEventListener('keydown', keyDownHandler);
+document.addEventListener('keyup', keyUpHandler);
+ // movimientos del personaje 
 
-document.addEventListener('keyup', function(e) {
-    if (e.key in keys) {
-        keys[e.key] = false;
-    }
-    keyUpHandler(e);  // Llama a tu función existente
-});
-
-function keyDownHandler(e) {
+ function keyDownHandler(e) {
     var maxSpeed = 2; 
     var acceleration = 1; 
     var initialSpeed = 2; 
     var jumpStrength = 10; 
 
-    if(keys.ArrowRight && keys.ArrowLeft) {
-        console.log("Ambas teclas están presionadas");
-        // Ambas teclas están presionadas
-        character.dx = 0;
-        keys.ArrowRight = false;
-        keys.ArrowLeft = false;
-    } else if(keys.ArrowRight) {
-        console.log("Tecla de flecha derecha está presionada");
-        // Solo la tecla de flecha derecha está presionada
-        if (character.dx <= 0) { 
-            character.dx = initialSpeed; // velocidad inicial
-        } else if (character.dx < maxSpeed) { 
-            character.dx += acceleration; // Aumenta la velocidad derecha
-        }
-    } else if(keys.ArrowLeft) {
-        console.log("Tecla de flecha izquierda está presionada");
-        // Solo la tecla de flecha izquierda está presionada
-        if (character.dx >= 0) { 
-            character.dx = -initialSpeed; // velocidad inicial
-        } else if (character.dx > -maxSpeed) { 
-            character.dx -= acceleration; // Aumenta la velocidad izquierda
-        }
+
+    if(e.key === "ArrowRight") {
+        rightPressed = true;
+    }
+    if(e.key === "ArrowLeft") {
+        leftPressed = true;
     }
 
-    if(e.key === "ArrowUp" && character.onGround === true) { 
+
+    if( leftPressed &&  rightPressed) { 
+        leftPressed = false;
+        rightPressed = false;
+        character.dx = 0;
+    }else{
+        if(e.key === "ArrowRight") {
+            rightPressed = true;
+            if (character.dx <= 0) { 
+                character.dx = initialSpeed; // velocidad inicial
+            } else if (character.dx < maxSpeed) { // 
+                character.dx += acceleration; // Aumenta la velocidad derecha
+            }
+        }
+        if(e.key === "ArrowLeft") {
+            leftPressed = true;
+            if (character.dx >= 0) { 
+                character.dx = -initialSpeed; // velocidad inicial
+            } else if (character.dx > -maxSpeed) { // 
+                character.dx -= acceleration; // Aumenta la velocidad izquierda
+            }
+        }
+
+    }
+
+    if(e.key === "ArrowUp") { 
+        if(character.onGround === true)
         character.dy = -jumpStrength  // Hace que la pelota salte
     }
 }
 
 function keyUpHandler(e) {
-    if(e.key === "ArrowRight" || e.key === "ArrowLeft") {
-        character.dx = 0;
-    }
-    if(e.key === "ArrowRight"){
-        console.log("Tecla de flecha derecha está suelta");
-    }
-    if(e.key === "ArrowLeft"){
-        console.log("Tecla de flecha izquierda está suelta");
+  
+    if(e.key === "ArrowRight") {
+      rightPressed = false;
+      character.dx = 0;
+    }else if(e.key === "ArrowLeft") {
+      leftPressed = false;
+      character.dx = 0;
     }
 
-    keyDownHandler(e);
 }
 
 
@@ -109,7 +101,7 @@ function draw() {
 
     if (character.onGround === false) {
         character.jumpPressed();
-    } else if (keys.ArrowRight || keys.ArrowLeft) {
+    } else if (rightPressed || leftPressed) {
         character.sidesPressed();
     } else {
         character.noMovement();
