@@ -126,7 +126,7 @@ class Character {
             this.moveSound.pause();
         }
 
-        if (this.jumpBool===true && this.formerOnGround===true ){
+        if (this.jumpBool===true && this.formerOnGround===true  && this.dy<0 ){
             this.jumpSound.play();
         }
 
