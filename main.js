@@ -1,5 +1,6 @@
 import {Character} from './character.js';
 import {Platform} from './platform.js';
+
 // Configuración inicial
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -88,7 +89,9 @@ function keyUpHandler(e) {
 
 }
 
- 
+const parsedCollisions = collisionsLevel1.parse2D()
+const collisionBlock = parsedCollisions.createObjectsFrom2D()
+
 // Función para actualizar el juego cada frame
 function draw() {
     // Limpiar el canvas
@@ -97,6 +100,9 @@ function draw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(level1, 0, 0, canvas.width, canvas.height);
 
+
+
+    collisionsLevel1.foreach(collisionsLevel1=>collisions.draw());
 
     // Dibujar el personaje
     character.draw();
