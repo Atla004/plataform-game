@@ -14,10 +14,10 @@ sprite.src = 'adventurer.png';
 let level1 = new Image();
 level1.src = 'level1/level1.png';
 
+
+// lo hace mas rapido
 let startButton = document.querySelector('#startButton');
 startButton.addEventListener('click', function() {
-    // Reproduce y pausa todos los sonidos para "desbloquear" el audio
-    // Ahora puedes comenzar el juego...
     draw();
 });
 
@@ -32,7 +32,7 @@ document.addEventListener('keydown', keyDownHandler);
 document.addEventListener('keyup', keyUpHandler);
  // movimientos del personaje 
 
- function keyDownHandler(e) {
+function keyDownHandler(e) {
     var maxSpeed = 2; 
     var acceleration = 1; 
     var initialSpeed = 2; 
@@ -92,6 +92,7 @@ function keyUpHandler(e) {
 const parsedCollisions = collisionsLevel1.parse2D()
 const collisionBlock = parsedCollisions.createObjectsFrom2D()
 
+
 // Función para actualizar el juego cada frame
 function draw() {
     // Limpiar el canvas
@@ -101,10 +102,7 @@ function draw() {
     ctx.drawImage(level1, 0, 0, canvas.width, canvas.height);
 
 
-
-    var collisionsblockLevel1; // Declare the missing variable
-
-    collisionBlock.forEach(collisions => collisions.draw());
+    collisionBlock.forEach(collisions => collisions.draw(ctx));
 
     // Dibujar el personaje
     character.draw();
