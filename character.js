@@ -6,21 +6,32 @@ class Character {
         this.sprite = new Image();
         this.sprite.src = 'adventurer.png';
 
-        // Posicion de aparicion del personaje
-        this.x = 480;
-        this.y = 330;
+        // Posicion de aparicion del personaje y tamaño
+        this.position = { 
+            x: 480, 
+            y: 330,
+            width: 50,
+            height: 50
+        }
+
+        this.parameters = {
+            maxSpeed: 4, 
+            acceleration: 1, 
+            initialSpeed: 4, 
+            jumpStrength: 10
+        }
+
 
         // Tamaño del cuadro del sprite que se va a dibujar
         this.spriteWidth = 20;
-        this.spriteHeight = 25;
+        this.spriteHeight = 22;
 
-        //Tamano del personaje
-        this.characterWidth = 50;
-        this.characterHeight = 50;
 
         // Posicion en el sprite
-        this.sW = 4;
-        this.sH = 8;
+        this.initialSpriteWidth = 4;
+        this.initialSpriteHeight = 8;
+
+        // frame de animacion   
         this.frameX = 0;
         this.frameY = 0;
 
@@ -48,9 +59,12 @@ class Character {
         this.formerMove = 0; //movimiento anterior
 
         //movement boolean
-        this.moveBool=false;
-        this.jumpBool=false;
-        this.noMoveBool=false;
+        this.movementBool={
+            moveBool: false,
+            jumpBool: false,
+            noMoveBool: false
+        };
+
     }
 
     //dibujo del sprite en el canvas
@@ -74,14 +88,14 @@ class Character {
     createCharacter() {
         this.ctx.drawImage(
             this.sprite,
-            this.sW + this.frameX * 32,
-            this.sH + this.frameY * 32,
+            this.initialSpriteWidth + this.frameX * 32,
+            this.initialSpriteHeight + this.frameY * 32,
             this.spriteWidth,
             this.spriteHeight,
-            this.direction === -1 ? -this.x - this.characterWidth : this.x,
-            this.y,
-            this.characterWidth,
-            this.characterHeight
+            this.direction === -1 ? -this.position.x - this.position.width : this.position.x,
+            this.position.y,
+            this.position.width,
+            this.position.height
         );
     }
 
@@ -102,7 +116,7 @@ class Character {
         this.numFramesxAction= 7;
    
         this.move=1;
-        this.moveBool=true;
+        this.movementBool.moveBool=true;
         this.moveSound.play();
         this.update();
   
@@ -114,7 +128,7 @@ class Character {
         this.numFramexSprite = 30;
         this.numFramesxAction = 12;
         this.move=0;
-        this.noMoveBool=true;
+        this.movementBool.noMoveBool=true;
         this.update();
     }
     //movimiento del personaje cuando salta
@@ -123,7 +137,7 @@ class Character {
         this.numFramexSprite = 10;
         this.numFramesxAction = 6;
         this.move=2;
-        this.jumpBool=true;
+        this.movementBool.jumpBool=true;
         this.update();
     }
 
@@ -134,10 +148,10 @@ class Character {
         this.updateBool(); //actualiza booleanos a falsos para volver a empezar
     }
     updateSound(){
-        if (this.moveBool===false){
+        if (this.movementBool.moveBool===false){
             this.moveSound.pause();
         }
-        if (this.jumpBool===true && this.formerOnGround===true  && this.dy<0 ){
+        if (this.movementBool.jumpBool===true && this.formerOnGround===true  && this.dy<0 ){
             this.jumpSound.play();
         }
     }
@@ -166,15 +180,15 @@ class Character {
     }
 
     updateBool(){
-        this.moveBool=false;
-        this.jumpBool=false;
-        this.noMoveBool=false;
+        this.movementBool.moveBool=false;
+        this.movementBool.jumpBool=false;
+        this.movementBool.noMoveBool=false;
     }
     
     //ajusta posicion del personaje
     characterPosicion(){
-        this.x += this.dx;
-        this.y += this.dy;  
+        this.position.x += this.dx;
+        this.position.y += this.dy;  
         this.dy += this.gravity ;
         this.formerOnGround = this.onGround;
         //onGround 
@@ -189,10 +203,10 @@ class Character {
     };
 
     characterinCanvas(){
-        if(this.x + this.dx > this.canvas.width-this.characterWidth|| this.x + this.dx < 0 ) {
+        if(this.position.x + this.dx > this.canvas.width-this.position.width|| this.position.x + this.dx < 0 ) {
             this.dx = 0;
         }
-        if(this.y + this.dy > this.canvas.height-this.characterHeight || this.y + this.dy < this.characterHeight) {
+        if(this.position.y + this.dy > this.canvas.height-this.position.height || this.position.y + this.dy < this.position.height) {
             this.dy = 0;
         }
     }

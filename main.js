@@ -34,12 +34,6 @@ document.addEventListener('keyup', keyUpHandler);
 
  // movimientos del personaje 
 function keyDownHandler(e) {
-    var maxSpeed = 2; 
-    var acceleration = 1; 
-    var initialSpeed = 2; 
-    var jumpStrength = 10; 
-
-
     if(e.key === "ArrowRight") {
         rightPressed = true;
     }
@@ -56,17 +50,17 @@ function keyDownHandler(e) {
         if(e.key === "ArrowRight") {
             rightPressed = true;
             if (character.dx <= 0) { 
-                character.dx = initialSpeed; // velocidad inicial
-            } else if (character.dx < maxSpeed) { // 
-                character.dx += acceleration; // Aumenta la velocidad derecha
+                character.dx = character.parameters.initialSpeed; // velocidad inicial
+            } else if (character.dx < character.parameters.maxSpeed) { // 
+                character.dx += character.parameters.acceleration; // Aumenta la velocidad derecha
             }
         }
         if(e.key === "ArrowLeft") {
             leftPressed = true;
             if (character.dx >= 0) { 
-                character.dx = -initialSpeed; // velocidad inicial
-            } else if (character.dx > -maxSpeed) { // 
-                character.dx -= acceleration; // Aumenta la velocidad izquierda
+                character.dx = -character.parameters.initialSpeed; // velocidad inicial
+            } else if (character.dx > -character.parameters.maxSpeed) { // 
+                character.dx -= character.parameters.acceleration; // Aumenta la velocidad izquierda
             }
         }
 
@@ -74,7 +68,7 @@ function keyDownHandler(e) {
 
     if(e.key === "ArrowUp") { 
         if(character.onGround === true)
-        character.dy = -jumpStrength  // Hace que la pelota salte
+        character.dy = -character.parameters.jumpStrength  // Hace que la pelota salte
     }
 }
 
@@ -125,19 +119,6 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-// Función para detectar colisiones entre la plataforma y el personaje
-function plataformXcharacter(){
-    if(platform.checkCollision(character)) {
-        if(character.dy > 0) { // si la bola esta arriba de la plataforma
-            character.dy = 0;
-            character.y = platform.y - character.characterHeight; // Asegura que la bola se mantenga encima de la plataforma
-        } else if(character.dy < 0) { // Si la bola está abajo de la plataforma
-            character.dy = 0;
-            character.y = platform.y + platform.height; // Asegura que la bola se mantenga debajo de la plataforma
-        }
-    }
-
-};
 
 
 draw();
