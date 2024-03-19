@@ -10,12 +10,11 @@ class Platform {
         this.x = (canvas.width ) / 2;
         this.y = canvas.height-50;
 
-        this.color = "#0095DD";
+        this.color = "red";
         this.character = character;
     }
 
     draw() {
-      
         this.ctx.beginPath();
         this.ctx.rect(this.x, this.y, this.width, this.height);
         this.ctx.fillStyle = this.color;
@@ -24,12 +23,25 @@ class Platform {
         
     }
 
-    checkCollision(character) {
-        return  character.y + character.dy+character.characterHeight > this.y && // comprueba por arriba
-                character.y + character.dy < this.y + this.height && // comprueba por abajo
-                character.x +character.characterWidth > this.x  && // comprueba por la izquierda
-                character.x  < this.x + this.width; // comprueba por la derecha
-    }
+    /*
+    checkCollision(character){
+        if(
+            this.character.x + this.character.characterWidth > this.x &&
+            this.character.x < this.x + this.width &&
+            this.character.y + this.character.characterHeight > this.y &&
+            this.character.y < this.y + this.height
+        ) {
+            if(character.dy > 0) { // si la bola esta arriba de la plataforma
+                character.dy = 0;
+                character.y -= character.dy; // Asegura que la bola se mantenga encima de la plataforma
+            } else if(character.dy < 0) { // Si la bola está abajo de la plataforma
+                character.dy = 0;
+                character.y = this.y + this.height; // Asegura que la bola se mantenga debajo de la plataforma
+            }
+        }
+    
+    };
+    */
 
     movePlatform(){
         this.x += this.movimiento;

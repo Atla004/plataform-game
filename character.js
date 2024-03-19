@@ -7,12 +7,12 @@ class Character {
         this.sprite.src = 'adventurer.png';
 
         // Posicion de aparicion del personaje
-        this.x = canvas.width / 2 - 150;
-        this.y = canvas.height - 200;
+        this.x = 480;
+        this.y = 330;
 
         // Tamaño del cuadro del sprite que se va a dibujar
         this.spriteWidth = 20;
-        this.spriteHeight = 22;
+        this.spriteHeight = 25;
 
         //Tamano del personaje
         this.characterWidth = 50;
@@ -20,7 +20,7 @@ class Character {
 
         // Posicion en el sprite
         this.sW = 4;
-        this.sH = 9;
+        this.sH = 8;
         this.frameX = 0;
         this.frameY = 0;
 
@@ -55,10 +55,13 @@ class Character {
 
     //dibujo del sprite en el canvas
     draw() {
-        this.ctx.save();
-        this.flipImageIfNecessary();
-        this.createCharacter();
-        this.ctx.restore();
+        this.ctx.save(); //guarda el estado del canvas (solo sirve si flipImageIfNecessary() se ejecuta antes de createCharacter()
+        this.flipImageIfNecessary(); //cambia la direccion del sprite si va a la izquierda
+        this.createCharacter(); //dibuja el sprite
+        this.characterinCanvas(); //evita que se mueva si se sale del canvas
+        this.characterPosicion(); //actualiza la posicion del personaje
+        this.spriteAnimation(); //actualiza la animacion del sprite
+        this.ctx.restore(); //restaura el estado del canvas
     }
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
     flipImageIfNecessary() {
@@ -82,6 +85,16 @@ class Character {
         );
     }
 
+    spriteAnimation(){
+        if (this.onGround === false) {
+            this.jumpPressed();
+        } else if (this.dx>0 || this.dx<0) {
+            this.sidesPressed();
+        } else {
+            this.noMovement();
+        }
+    }
+
     //movimiento del personaje
     sidesPressed(){
         this.frameY = 1;
@@ -95,7 +108,6 @@ class Character {
   
 
     }
-
     //movimiento del personaje cuando esa quieto
     noMovement(){
         this.frameY = 0;
@@ -105,7 +117,6 @@ class Character {
         this.noMoveBool=true;
         this.update();
     }
-
     //movimiento del personaje cuando salta
     jumpPressed(){
         this.frameY = 5;
@@ -116,47 +127,31 @@ class Character {
         this.update();
     }
 
+
     update() {
-        this.updateSound();
-        this.updateFrame();
-        this.updateBool();
+        this.updateSound(); //actualiza sonidos
+        this.updateFrame(); //actualiza el sprite para crear animacion   
+        this.updateBool(); //actualiza booleanos a falsos para volver a empezar
     }
-
-    updateBool(){
-        this.moveBool=false;
-        this.jumpBool=false;
-        this.noMoveBool=false;
-    }
-
     updateSound(){
         if (this.moveBool===false){
             this.moveSound.pause();
         }
-
         if (this.jumpBool===true && this.formerOnGround===true  && this.dy<0 ){
             this.jumpSound.play();
         }
-
-
     }
-
     //movimiento de los frames para formar la animacion
     updateFrame() {
-        this.characterinCanvas();
-        this.characterPosicion();
-   
-
+        
         //ver direccion del personaje
         this.setDirection();
         
-
         //reinicio de la animacion si cambia de movimiento
-        if (this.move !== this.formerMove)
-        {
-        this.frameCount = 0; 
-        this.formerMove = this.move;
-        this.frameX = 0;
-
+        if (this.move !== this.formerMove){
+            this.frameCount = 0; 
+            this.formerMove = this.move;
+            this.frameX = 0;
         }
         this.frameCount += 1;
         if (this.frameCount > this.numFramexSprite) {
@@ -170,18 +165,22 @@ class Character {
         }
     }
 
+    updateBool(){
+        this.moveBool=false;
+        this.jumpBool=false;
+        this.noMoveBool=false;
+    }
+    
     //ajusta posicion del personaje
     characterPosicion(){
         this.x += this.dx;
         this.y += this.dy;  
         this.dy += this.gravity ;
-        console.log(this.jumpBool);
         this.formerOnGround = this.onGround;
         //onGround 
         if (this.dy === this.lastDy) {
             this.onGround = true;
         } else {
-            
             this.lastDy = this.dy;  
             this.onGround= false;
         }

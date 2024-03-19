@@ -1,19 +1,26 @@
-import {Character} from './character.js';
-import {Platform} from './platform.js';
+import { Character } from './character.js';
+import { Platform } from './platform.js';
 
 // Configuración inicial
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
+// Variables para el movimiento del personaje
 let rightPressed = false;
 let leftPressed = false;
 
-let sprite = new Image();
-sprite.src = 'adventurer.png';
-
+//background
 let level1 = new Image();
 level1.src = 'level1/level1.png';
 
+
+// bloques de colision
+const parsedCollisions = collisionsLevel1.parse2D()
+const collisionBlock = parsedCollisions.createObjectsFrom2D()
+
+// Crear el personaje y la plataforma
+const character = new Character(ctx, canvas);
+const platform = new Platform(ctx, canvas, character);
 
 // lo hace mas rapido
 let startButton = document.querySelector('#startButton');
@@ -21,17 +28,11 @@ startButton.addEventListener('click', function() {
     draw();
 });
 
-
-
-const character = new Character(ctx, canvas);
-const platform = new Platform(ctx, canvas, character);
-
-
-
+// Event listeners para el movimiento del personaje
 document.addEventListener('keydown', keyDownHandler);
 document.addEventListener('keyup', keyUpHandler);
- // movimientos del personaje 
 
+ // movimientos del personaje 
 function keyDownHandler(e) {
     var maxSpeed = 2; 
     var acceleration = 1; 
@@ -89,8 +90,7 @@ function keyUpHandler(e) {
 
 }
 
-const parsedCollisions = collisionsLevel1.parse2D()
-const collisionBlock = parsedCollisions.createObjectsFrom2D()
+
 
 
 // Función para actualizar el juego cada frame
@@ -99,34 +99,33 @@ function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "rgba(144, 187, 133, 0.87)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(level1, 0, 0, canvas.width, canvas.height);
+
+    ctx.drawImage(level1, 0, 0, canvas.width, canvas.height); //añadir el fondo
 
 
-    collisionBlock.forEach(collisions => collisions.draw(ctx));
+    collisionBlock.forEach(collisions => collisions.draw(ctx)); 
 
     // Dibujar el personaje
     character.draw();
-    //platform.draw();
+
+    platform.draw();
+    // platform.checkCollision(character);
 
     //choques
-    //plataformXcharacter();
-    //platform.movePlatform();
 
-    if (character.onGround === false) {
-        character.jumpPressed();
-    } else if (rightPressed || leftPressed) {
-        character.sidesPressed();
-    } else {
-        character.noMovement();
-    }
-    
+   
+
+
+
     
 
+
+    
+    // Llamar a la función draw() 60 veces por segundo
     requestAnimationFrame(draw);
 }
 
-
-
+// Función para detectar colisiones entre la plataforma y el personaje
 function plataformXcharacter(){
     if(platform.checkCollision(character)) {
         if(character.dy > 0) { // si la bola esta arriba de la plataforma

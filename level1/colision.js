@@ -50,6 +50,7 @@ class CollisionBlock {
     draw(ctx) {
       ctx.fillStyle = "red"
       ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
-    }   
+    }  
+    
 }
 
