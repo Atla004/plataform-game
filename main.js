@@ -10,7 +10,7 @@ let leftPressed = false;
 
 let sprite = new Image();
 sprite.src = 'adventurer.png';
-//dsdsdsrdas
+
 let level1 = new Image();
 level1.src = 'level1/level1.png';
 
@@ -102,7 +102,9 @@ function draw() {
 
 
 
-    collisionsLevel1.foreach(collisionsLevel1=>collisions.draw());
+    var collisionsblockLevel1; // Declare the missing variable
+
+    collisionBlock.forEach(collisions => collisions.draw());
 
     // Dibujar el personaje
     character.draw();
