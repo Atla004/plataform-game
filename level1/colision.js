@@ -20,4 +20,5 @@ Array.prototype.parse2D = function () {
         rows.push(this.slice(i ,i +17))
     }
     return rows
+//hola
 }
