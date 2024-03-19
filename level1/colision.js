@@ -41,8 +41,6 @@ Array.prototype.createObjectsFrom2D = function () {
         return objects
 }
 
-const collisions = []
-
 class CollisionBlock {
         constructor({ position }) {
       this.position = position
@@ -55,13 +53,3 @@ class CollisionBlock {
     }   
 }
 
-const parsedCollisions = collisionsLevel1.parse2D()
-parsedCollisions.forEach((row, y)=>{
-    row.forEach((Symbol, x)=>{
-        if(Symbol===46){
-            collisions.push(
-                new CollisionBlock({position: {x: x * 50, y: y * 32}})
-            )
-        }
-    })
-})
