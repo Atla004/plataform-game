@@ -25,10 +25,17 @@ class Platform {
     }
 
     checkCollision(character) {
-        return  character.y + character.dy+character.h > this.y && // comprueba por arriba
+        return  character.y + character.dy+character.characterHeight > this.y && // comprueba por arriba
                 character.y + character.dy < this.y + this.height && // comprueba por abajo
-                character.x +character.w > this.x  && // comprueba por la izquierda
+                character.x +character.characterWidth > this.x  && // comprueba por la izquierda
                 character.x  < this.x + this.width; // comprueba por la derecha
+    }
+
+    movePlatform(){
+        this.x += this.movimiento;
+        if (this.x + this.width> this.canvas.width || this.x < 0) {
+            this.movimiento = -this.movimiento;
+        } 
     }
 }
 export { Platform};

@@ -6,13 +6,19 @@ class Character {
         this.sprite = new Image();
         this.sprite.src = 'adventurer.png';
 
-        // Posicion y tamaño del personaje
+        // Posicion de aparicion del personaje
         this.x = canvas.width / 2 - 150;
         this.y = canvas.height - 200;
-        this.w = 20;
-        this.h = 22;
 
-        // Posicion del sprite
+        // Tamaño del cuadro del sprite que se va a dibujar
+        this.spriteWidth = 20;
+        this.spriteHeight = 22;
+
+        //Tamalo del personaje
+        this.characterWidth = 50;
+        this.characterHeight = 50;
+
+        // Posicion en el sprite
         this.sW = 4;
         this.sH = 9;
         this.frameX = 0;
@@ -25,11 +31,12 @@ class Character {
         this.lastDy = 0;
         this.gravity = 0.5;
         
-        //sonidos del jugador
+        //sonidos del jugado
         this.moveSound = new Audio('walk.wav');
         this.moveSound.loop = true;
 
         this.jumpSound = new Audio('jump.wav');
+        this.jumpSound.volume = 0.1;
 
 
         //Otros
@@ -66,12 +73,12 @@ class Character {
             this.sprite,
             this.sW + this.frameX * 32,
             this.sH + this.frameY * 32,
-            this.w,
-            this.h,
-            this.direction === -1 ? -this.x - this.w : this.x,
+            this.spriteWidth,
+            this.spriteHeight,
+            this.direction === -1 ? -this.x - this.characterWidth : this.x,
             this.y,
-            this.w,
-            this.h
+            this.characterWidth,
+            this.characterHeight
         );
     }
 
@@ -183,10 +190,10 @@ class Character {
     };
 
     characterinCanvas(){
-        if(this.x + this.dx > this.canvas.width-this.w || this.x + this.dx < 0 ) {
+        if(this.x + this.dx > this.canvas.width-this.characterWidth|| this.x + this.dx < 0 ) {
             this.dx = 0;
         }
-        if(this.y + this.dy > this.canvas.height-this.h || this.y + this.dy < this.h) {
+        if(this.y + this.dy > this.canvas.height-this.characterHeight || this.y + this.dy < this.characterHeight) {
             this.dy = 0;
         }
     }
@@ -196,6 +203,7 @@ class Character {
     }
      
 };
+
 
 
 export {Character};
