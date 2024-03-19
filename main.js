@@ -9,7 +9,7 @@ let leftPressed = false;
 
 let sprite = new Image();
 sprite.src = 'adventurer.png';
-//dsdsds
+//dsdsdsrdas
 let level1 = new Image();
 level1.src = 'level1/level1.png';
 
