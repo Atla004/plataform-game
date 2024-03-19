@@ -14,7 +14,7 @@ class Character {
         this.spriteWidth = 20;
         this.spriteHeight = 22;
 
-        //Tamalo del personaje
+        //Tamano del personaje
         this.characterWidth = 50;
         this.characterHeight = 50;
 
