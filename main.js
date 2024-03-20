@@ -45,22 +45,22 @@ function keyDownHandler(e) {
     if( leftPressed &&  rightPressed) { 
         leftPressed = false;
         rightPressed = false;
-        character.dx = 0;
+        character.velocidad.dx = 0;
     }else{
         if(e.key === "ArrowRight") {
             rightPressed = true;
-            if (character.dx <= 0) { 
-                character.dx = character.parameters.initialSpeed; // velocidad inicial
-            } else if (character.dx < character.parameters.maxSpeed) { // 
-                character.dx += character.parameters.acceleration; // Aumenta la velocidad derecha
+            if (character.velocidad.dx <= 0) { 
+                character.velocidad.dx = character.parameters.initialSpeed; // velocidad inicial
+            } else if (character.velocidad.dx < character.parameters.maxSpeed) { // 
+                character.velocidad.dx += character.parameters.acceleration; // Aumenta la velocidad derecha
             }
         }
         if(e.key === "ArrowLeft") {
             leftPressed = true;
-            if (character.dx >= 0) { 
-                character.dx = -character.parameters.initialSpeed; // velocidad inicial
-            } else if (character.dx > -character.parameters.maxSpeed) { // 
-                character.dx -= character.parameters.acceleration; // Aumenta la velocidad izquierda
+            if (character.velocidad.dx >= 0) { 
+                character.velocidad.dx = -character.parameters.initialSpeed; // velocidad inicial
+            } else if (character.velocidad.dx > -character.parameters.maxSpeed) { // 
+                character.velocidad.dx -= character.parameters.acceleration; // Aumenta la velocidad izquierda
             }
         }
 
@@ -68,7 +68,7 @@ function keyDownHandler(e) {
 
     if(e.key === "ArrowUp") { 
         if(character.onGround === true)
-        character.dy = -character.parameters.jumpStrength  // Hace que la pelota salte
+        character.velocidad.dy = -character.parameters.jumpStrength  // Hace que la pelota salte
     }
 }
 
@@ -76,10 +76,10 @@ function keyUpHandler(e) {
   
     if(e.key === "ArrowRight") {
       rightPressed = false;
-      character.dx = 0;
+      character.velocidad.dx = 0;
     }else if(e.key === "ArrowLeft") {
       leftPressed = false;
-      character.dx = 0;
+      character.velocidad.dx = 0;
     }
 
 }

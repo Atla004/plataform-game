@@ -18,7 +18,7 @@ class Character {
             maxSpeed: 4, 
             acceleration: 1, 
             initialSpeed: 4, 
-            jumpStrength: 10
+            jumpStrength: 18
         }
 
 
@@ -36,11 +36,13 @@ class Character {
         this.frameY = 0;
 
         // Velocidad en x y y
-        this.dx = 0;
-        this.dy = 0;
+        this.velocidad = {
+            dx: 0,
+            dy: 0
+        }
         this.onGround = true;
         this.lastDy = 0;
-        this.gravity = 0.5;
+        this.gravity = 0.8;
         
         //sonidos del jugado
         this.moveSound = new Audio('walk.wav');
@@ -102,7 +104,7 @@ class Character {
     spriteAnimation(){
         if (this.onGround === false) {
             this.jumpPressed();
-        } else if (this.dx>0 || this.dx<0) {
+        } else if (this.velocidad.dx>0 || this.velocidad.dx<0) {
             this.sidesPressed();
         } else {
             this.noMovement();
@@ -151,7 +153,7 @@ class Character {
         if (this.movementBool.moveBool===false){
             this.moveSound.pause();
         }
-        if (this.movementBool.jumpBool===true && this.formerOnGround===true  && this.dy<0 ){
+        if (this.movementBool.jumpBool===true && this.formerOnGround===true  && this.velocidad.dy<0 ){
             this.jumpSound.play();
         }
     }
@@ -187,15 +189,15 @@ class Character {
     
     //ajusta posicion del personaje
     characterPosicion(){
-        this.position.x += this.dx;
-        this.position.y += this.dy;  
-        this.dy += this.gravity ;
+        this.position.x += this.velocidad.dx;
+        this.position.y += this.velocidad.dy;  
+        this.velocidad.dy += this.gravity ;
         this.formerOnGround = this.onGround;
         //onGround 
-        if (this.dy === this.lastDy) {
+        if (this.velocidad.dy === this.lastDy) {
             this.onGround = true;
         } else {
-            this.lastDy = this.dy;  
+            this.lastDy = this.velocidad.dy;  
             this.onGround= false;
         }
 
@@ -203,16 +205,16 @@ class Character {
     };
 
     characterinCanvas(){
-        if(this.position.x + this.dx > this.canvas.width-this.position.width|| this.position.x + this.dx < 0 ) {
-            this.dx = 0;
+        if(this.position.x + this.velocidad.dx > this.canvas.width-this.position.width|| this.position.x + this.velocidad.dx < 0 ) {
+            this.velocidad.dx = 0;
         }
-        if(this.position.y + this.dy > this.canvas.height-this.position.height || this.position.y + this.dy < this.position.height) {
-            this.dy = 0;
+        if(this.position.y + this.velocidad.dy > this.canvas.height-this.position.height || this.position.y + this.velocidad.dy < this.position.height) {
+            this.velocidad.dy = 0;
         }
     }
 
     setDirection(){
-        if(this.dx !==0)  this.dx > 0? this.direction = 1 : this.direction = -1;
+        if(this.velocidad.dx !==0)  this.velocidad.dx > 0? this.direction = 1 : this.direction = -1;
     }
      
 };
