@@ -77,6 +77,7 @@ class Character {
     }
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
     flipImageIfNecessary() {
+        this.setDirection();
         if (this.direction === -1) {
             this.ctx.scale(-1, 1);
         }
@@ -97,6 +98,7 @@ class Character {
         );
     }
 
+    //movimiento del personaje
     spriteAnimation(){
 
         //movimiento del personaje cuando salta
@@ -152,8 +154,6 @@ class Character {
         //movimiento de los frames para formar la animacion
         const updateFrame = () => {
             
-            //ver direccion del personaje
-            this.setDirection();
             
             //reinicio de la animacion si cambia de movimiento
             if (this.move !== this.formerMove){
