@@ -8,8 +8,8 @@ class Character {
 
         // Posicion de aparicion del personaje y tamaño
         this.position = { 
-            x: 480, 
-            y: 330,
+            x: 200, 
+            y: 200,
             width: 50,
             height: 50
         }
@@ -18,7 +18,7 @@ class Character {
             maxSpeed: 4, 
             acceleration: 1, 
             initialSpeed: 4, 
-            jumpStrength: 18
+            jumpStrength: 14
         }
 
 
@@ -61,11 +61,7 @@ class Character {
         this.formerMove = 0; //movimiento anterior
 
         //movement boolean
-        this.movementBool={
-            moveBool: false,
-            jumpBool: false,
-            noMoveBool: false
-        };
+
 
     }
 
@@ -73,10 +69,10 @@ class Character {
     draw() {
         this.ctx.save(); //guarda el estado del canvas (solo sirve si flipImageIfNecessary() se ejecuta antes de createCharacter()
         this.flipImageIfNecessary(); //cambia la direccion del sprite si va a la izquierda
-        this.createCharacter(); //dibuja el sprite
-        this.characterinCanvas(); //evita que se mueva si se sale del canvas
-        this.characterPosicion(); //actualiza la posicion del personaje
+        this.drawCharacter(); //dibuja el sprite
+        this.keepCharacterinCanvas(); //evita que se mueva si se sale del canvas
         this.spriteAnimation(); //actualiza la animacion del sprite
+        this.update(); //actualiza la posicion del personaje
         this.ctx.restore(); //restaura el estado del canvas
     }
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
@@ -87,7 +83,7 @@ class Character {
     }
 
     //dibujo del sprite
-    createCharacter() {
+    drawCharacter() {
         this.ctx.drawImage(
             this.sprite,
             this.initialSpriteWidth + this.frameX * 32,
@@ -102,121 +98,121 @@ class Character {
     }
 
     spriteAnimation(){
+
+        //movimiento del personaje cuando salta
+        const jumpPressed = () =>{
+            this.frameY = 5;
+            this.numFramexSprite = 10;
+            this.numFramesxAction = 6;
+            this.move=2;
+
+        }
+
+        //movimiento del personaje
+        const sidesPressed = () => {
+            this.frameY = 1;
+            this.numFramexSprite = 6;
+            this.numFramesxAction= 7;
+       
+            this.move=1;
+            this.moveSound.play();
+      
+    
+        }
+        
+        //movimiento del personaje cuando esa quieto
+        const noMovement = () =>  {      
+            this.frameY = 0;
+            this.numFramexSprite = 30;
+            this.numFramesxAction = 12;
+            this.move=0;
+        }
+
         if (this.onGround === false) {
-            this.jumpPressed();
+            jumpPressed();
         } else if (this.velocidad.dx>0 || this.velocidad.dx<0) {
-            this.sidesPressed();
+            sidesPressed();
         } else {
-            this.noMovement();
+            noMovement();
         }
     }
-
-    //movimiento del personaje
-    sidesPressed(){
-        this.frameY = 1;
-        this.numFramexSprite = 6;
-        this.numFramesxAction= 7;
-   
-        this.move=1;
-        this.movementBool.moveBool=true;
-        this.moveSound.play();
-        this.update();
-  
-
-    }
-    //movimiento del personaje cuando esa quieto
-    noMovement(){
-        this.frameY = 0;
-        this.numFramexSprite = 30;
-        this.numFramesxAction = 12;
-        this.move=0;
-        this.movementBool.noMoveBool=true;
-        this.update();
-    }
-    //movimiento del personaje cuando salta
-    jumpPressed(){
-        this.frameY = 5;
-        this.numFramexSprite = 10;
-        this.numFramesxAction = 6;
-        this.move=2;
-        this.movementBool.jumpBool=true;
-        this.update();
-    }
-
 
     update() {
-        this.updateSound(); //actualiza sonidos
-        this.updateFrame(); //actualiza el sprite para crear animacion   
-        this.updateBool(); //actualiza booleanos a falsos para volver a empezar
-    }
-    updateSound(){
-        if (this.movementBool.moveBool===false){
-            this.moveSound.pause();
+        const updateSound = ()=> {
+            if (this.move!==1){
+                this.moveSound.pause();
+            }
+    
+            if (this.move===2 && this.formerOnGround===true  && this.velocidad.dy<0 ){
+                this.jumpSound.play();
+                console.log('jump');
+            }
         }
-        if (this.movementBool.jumpBool===true && this.formerOnGround===true  && this.velocidad.dy<0 ){
-            this.jumpSound.play();
-        }
-    }
-    //movimiento de los frames para formar la animacion
-    updateFrame() {
-        
-        //ver direccion del personaje
-        this.setDirection();
-        
-        //reinicio de la animacion si cambia de movimiento
-        if (this.move !== this.formerMove){
-            this.frameCount = 0; 
-            this.formerMove = this.move;
-            this.frameX = 0;
-        }
-        this.frameCount += 1;
-        if (this.frameCount > this.numFramexSprite) {
-            this.frameCount = 0;
-            this.frameX += 1 ;
-            //se reinicia la animacion si llega al final
-            if (this.frameX > this.numFramesxAction) {
-
+        //movimiento de los frames para formar la animacion
+        const updateFrame = () => {
+            
+            //ver direccion del personaje
+            this.setDirection();
+            
+            //reinicio de la animacion si cambia de movimiento
+            if (this.move !== this.formerMove){
+                this.frameCount = 0; 
+                this.formerMove = this.move;
                 this.frameX = 0;
-            } 
+            }
+            this.frameCount += 1;
+            if (this.frameCount > this.numFramexSprite) {
+                this.frameCount = 0;
+                this.frameX += 1 ;
+                //se reinicia la animacion si llega al final
+                if (this.frameX > this.numFramesxAction) {
+    
+                    this.frameX = 0;
+                } 
+            }
         }
-    }
+    
+        
+        //ajusta posicion del personaje
+        const updatePosition =() =>{
+            this.position.x += this.velocidad.dx;
+            this.position.y += this.velocidad.dy;  
+            this.velocidad.dy += this.gravity ;
+            this.formerOnGround = this.onGround;
+            //onGround 
+            if (this.velocidad.dy === this.lastDy) {
+                this.onGround = true;
+            } else {
+                this.lastDy = this.velocidad.dy;  
+                this.onGround= false;
+            }
+    
+            
+        };
+        
+        updatePosition(); //actualiza posicion
+        updateSound(); //actualiza sonidos
+        updateFrame(); //actualiza el sprite para crear animacion   
 
-    updateBool(){
-        this.movementBool.moveBool=false;
-        this.movementBool.jumpBool=false;
-        this.movementBool.noMoveBool=false;
     }
     
-    //ajusta posicion del personaje
-    characterPosicion(){
-        this.position.x += this.velocidad.dx;
-        this.position.y += this.velocidad.dy;  
-        this.velocidad.dy += this.gravity ;
-        this.formerOnGround = this.onGround;
-        //onGround 
-        if (this.velocidad.dy === this.lastDy) {
-            this.onGround = true;
-        } else {
-            this.lastDy = this.velocidad.dy;  
-            this.onGround= false;
-        }
 
-        
-    };
 
-    characterinCanvas(){
-        if(this.position.x + this.velocidad.dx > this.canvas.width-this.position.width|| this.position.x + this.velocidad.dx < 0 ) {
+    keepCharacterinCanvas(){
+
+
+
+        if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { // Horizontalmente
             this.velocidad.dx = 0;
         }
-        if(this.position.y + this.velocidad.dy > this.canvas.height-this.position.height || this.position.y + this.velocidad.dy < this.position.height) {
+        if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { // Verticalmente
             this.velocidad.dy = 0;
         }
     }
 
     setDirection(){
         if(this.velocidad.dx !==0)  this.velocidad.dx > 0? this.direction = 1 : this.direction = -1;
-    }
-     
+    } 
 };
 
 

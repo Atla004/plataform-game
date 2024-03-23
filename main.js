@@ -19,7 +19,7 @@ const parsedCollisions = collisionsLevel1.parse2D()
 const collisionBlock = parsedCollisions.createObjectsFrom2D()
 
 // Crear el personaje y la plataforma
-const character = new Character(ctx, canvas);
+const character = new Character(ctx, canvas );
 const platform = new Platform(ctx, canvas, character);
 
 // lo hace mas rapido
@@ -98,7 +98,6 @@ function draw() {
 
 
     collisionBlock.forEach(collisions => collisions.draw(ctx)); 
-
     // Dibujar el personaje
     character.draw();
 
