@@ -201,7 +201,6 @@ class Character {
 
     keepCharacterinCanvas(){
 
-
         //evita que el personaje se salga del canvas horizontalmente
         if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { 
             this.velocidad.dx = 0;
