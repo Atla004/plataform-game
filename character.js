@@ -72,7 +72,7 @@ class Character {
         this.drawCharacter(); //dibuja el sprite
         this.keepCharacterinCanvas(); //evita que se mueva si se sale del canvas
         this.spriteAnimation(); //actualiza la animacion del sprite
-        this.update(); //actualiza la posicion del personaje
+        this.update(); //actualiza la posicion del personaje para el siguiente ciclo
         this.ctx.restore(); //restaura el estado del canvas
     }
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
@@ -115,7 +115,7 @@ class Character {
             this.numFramesxAction= 7;
        
             this.move=1;
-            this.moveSound.play();
+
       
     
         }
@@ -139,15 +139,16 @@ class Character {
 
     update() {
         const updateSound = ()=> {
-            if (this.move!==1){
-                this.moveSound.pause();
-            }
-    
-            if (this.move===2 && this.formerOnGround===true  && this.velocidad.dy<0 ){
+
+            //sonido de movimiento
+            this.move===1? this.moveSound.play() : this.moveSound.pause();
+
+            //sonido de salto
+            if (this.move===2 && this.formerOnGround===true ){
                 this.jumpSound.play();
-                console.log('jump');
             }
         }
+
         //movimiento de los frames para formar la animacion
         const updateFrame = () => {
             
@@ -190,9 +191,9 @@ class Character {
             
         };
         
-        updatePosition(); //actualiza posicion
         updateSound(); //actualiza sonidos
         updateFrame(); //actualiza el sprite para crear animacion   
+        updatePosition(); //actualiza posicion para siguiente ciclo
 
     }
     
@@ -201,11 +202,13 @@ class Character {
     keepCharacterinCanvas(){
 
 
-
-        if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { // Horizontalmente
+        //evita que el personaje se salga del canvas horizontalmente
+        if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { 
             this.velocidad.dx = 0;
         }
-        if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { // Verticalmente
+
+        //evita que el personaje se salga del canvas verticalmente
+        if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { 
             this.velocidad.dy = 0;
         }
     }
