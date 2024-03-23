@@ -75,14 +75,23 @@ class Character {
         this.update(); //actualiza la posicion del personaje para el siguiente ciclo
         this.ctx.restore(); //restaura el estado del canvas
     }
+     
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
     flipImageIfNecessary() {
-        this.setDirection();
+        const setDirection =()=>{
+            if(this.velocidad.dx !==0) {
+                this.velocidad.dx > 0? this.direction = 1 : this.direction = -1;
+            }
+        }
+
+        setDirection();
+
         if (this.direction === -1) {
             this.ctx.scale(-1, 1);
         }
     }
 
+    
     //dibujo del sprite
     drawCharacter() {
         this.ctx.drawImage(
@@ -129,7 +138,7 @@ class Character {
             this.numFramesxAction = 12;
             this.move=0;
         }
-
+        
         if (this.onGround === false) {
             jumpPressed();
         } else if (this.velocidad.dx>0 || this.velocidad.dx<0) {
@@ -138,19 +147,19 @@ class Character {
             noMovement();
         }
     }
-
+    
     update() {
         const updateSound = ()=> {
-
+            
             //sonido de movimiento
             this.move===1? this.moveSound.play() : this.moveSound.pause();
-
+            
             //sonido de salto
             if (this.move===2 && this.formerOnGround===true ){
                 this.jumpSound.play();
             }
         }
-
+        
         //movimiento de los frames para formar la animacion
         const updateFrame = () => {
             
@@ -172,7 +181,7 @@ class Character {
                 } 
             }
         }
-    
+        
         
         //ajusta posicion del personaje
         const updatePosition =() =>{
@@ -194,27 +203,24 @@ class Character {
         updateSound(); //actualiza sonidos
         updateFrame(); //actualiza el sprite para crear animacion   
         updatePosition(); //actualiza posicion para siguiente ciclo
-
+        
     }
     
-
-
+    
+    
     keepCharacterinCanvas(){
-
+        
         //evita que el personaje se salga del canvas horizontalmente
         if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { 
             this.velocidad.dx = 0;
         }
-
+        
         //evita que el personaje se salga del canvas verticalmente
         if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { 
             this.velocidad.dy = 0;
         }
     }
-
-    setDirection(){
-        if(this.velocidad.dx !==0)  this.velocidad.dx > 0? this.direction = 1 : this.direction = -1;
-    } 
+    
 };
 
 
