@@ -1,5 +1,5 @@
 class Character {
-    constructor(ctx, canvas) {
+    constructor(ctx, canvas, x, y, width, height) {
         this.ctx = ctx;
         this.canvas = canvas;
 
@@ -8,10 +8,10 @@ class Character {
 
         // Posicion de aparicion del personaje y tamaño
         this.position = { 
-            x: 200, 
-            y: 200,
-            width: 50,
-            height: 50
+            x: x, 
+            y: y,
+            width: width,
+            height: height
         }
 
         this.parameters = {

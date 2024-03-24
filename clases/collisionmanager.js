@@ -19,7 +19,9 @@ class CollisionManager {
     
 
     applyCollision() {
-        this.blocks.forEach(block => {
+        let blocks = this.blocks;
+
+        const applyCollision = (block) => {
             let character = this.character.position;
             let dx = this.character.velocidad.dx;
             let dy = this.character.velocidad.dy;
@@ -73,9 +75,12 @@ class CollisionManager {
             if(collision()){
                 checkSiteOfCollision();
             }
+        }
 
-        
-        }); 
+        Array.isArray(blocks) ? 
+        blocks.forEach(block => { applyCollision(block); }) //si son las colisiones del mapa
+        : applyCollision(blocks); // si es una plataforma
+
     
     }
 }

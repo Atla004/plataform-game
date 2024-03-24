@@ -63,9 +63,10 @@ const map1 = new levelCollision(collisionsLevel1);
 const collisionBlock = map1.collision();
 
 // Crear el personaje y la plataforma y la colision
-const character = new Character(ctx, canvas );
-const platform = new Platform(ctx, canvas, character);
+const character = new Character(ctx, canvas,200,200,50,50 );
+const platform = new Platform(ctx, canvas, character,250, 288, 100, 300);
 const colision = new CollisionManager(character, collisionBlock);
+const platcol = new CollisionManager(character, platform);
 
 
 // Event listeners para el movimiento del personaje
@@ -137,12 +138,16 @@ function draw() {
     // Dibujar el personaje
     character.draw();
 
+    platform.draw(); //dibuja las plataformas
+    
+
     //colision.draw(ctx); //!dibuja los bloques de colision
 
+    //platcol.applyCollision(ctx); //aplica las colisiones con las plataformas
     colision.applyCollision(ctx); //aplica las colisiones con el mapa
 
     // actualizar los valores de posicion del personaje par a el siguiente frame
-     character.update();
+    character.update();
 
     // Llamar a la función draw() 60 veces por segundo
     requestAnimationFrame(draw);

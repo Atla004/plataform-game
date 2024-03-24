@@ -1,18 +1,18 @@
 class Platform {
-    constructor(ctx, canvas, character) {
+    constructor(ctx, canvas, character, x , y, width, height) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.movimiento = 2;
 
         // Posicion y de la plataforma
         this.position = {
-            x: 500,
-            y: 350,
-            width: 80,
-            height: 50
+            x: x,
+            y: y,
+            width: width,
+            height: height
         }
 
-        this.color = "red";
+        this.color = "rgb(112, 146, 190)";
         this.character = character;
     }
 
