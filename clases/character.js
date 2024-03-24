@@ -66,6 +66,15 @@ class Character {
 
     //dibujo del sprite en el canvas
     draw() {
+        /*
+                //!cuadro rojo para pero el hitbox del personaje      
+                this.ctx.beginPath();
+                this.ctx.rect(this.position.x, this.position.y, this.position.width, this.position.height);
+                this.ctx.fillStyle = "red";
+                this.ctx.fill();
+                this.ctx.closePath();
+                //!cuadro rojo para pero el hitbox del personaje
+        */
         this.ctx.save(); //guarda el estado del canvas (solo sirve si flipImageIfNecessary() se ejecuta antes de createCharacter()
         this.flipImageIfNecessary(); //cambia la direccion del sprite si va a la izquierda
         this.keepCharacterinCanvas(); //evita que se mueva si se sale del canvas
@@ -93,16 +102,7 @@ class Character {
     
     //dibujo del sprite
     drawCharacter() {
-        
-        //!cuadro rojo para pero el hitbox del personaje      
-        this.ctx.beginPath();
-        this.ctx.rect(this.position.x, this.position.y, this.position.width, this.position.height);
-        this.ctx.fillStyle = "red";
-        this.ctx.fill();
-        this.ctx.closePath();
-        //!cuadro rojo para pero el hitbox del personaje
-
-
+    
         this.ctx.drawImage(
             this.sprite,
             this.initialSpriteWidth + this.frameX * 32,
@@ -228,9 +228,17 @@ class Character {
         
         //evita que el personaje se salga del canvas verticalmente
         if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { 
+            if ( this.position.y == this.canvas.height - this.position.height) { // lleva a su posicion inicial si cae al vacio
+                this.position.y = 200;
+                this.position.x = 200;
+                this.move=0;
+            }else{
             this.velocidad.dy = 0;
+            this.position.y = this.canvas.height - this.position.height}
         }
     }
+
+    
     
 };
 

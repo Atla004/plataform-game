@@ -31,6 +31,10 @@ let leftPressed = false;
 //background
 let level1 = new Image();
 level1.src = 'levels/level1.png';
+let levelsoundtrack = new Audio('soundtrack.wav');
+levelsoundtrack.volume = 0.05;
+levelsoundtrack.loop = true;
+
 
 
 // bloques de colision
@@ -109,6 +113,7 @@ function keyUpHandler(e) {
 
 // Función para actualizar el juego cada frame
 function draw() {
+    levelsoundtrack.play();
     // Limpiar el canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -118,11 +123,11 @@ function draw() {
     // Dibujar el personaje
     character.draw();
 
-    colision.draw(ctx); //!dibuja los bloques de colision
+    // colision.draw(ctx); //!dibuja los bloques de colision
 
-    colision.applyCollision(ctx); //comprueba las colisiones
+    colision.applyCollision(ctx); //aplica las colisiones con el mapa
 
-
+    // actualizar los valores de posicion del personaje par a el siguiente frame
     character.update();
 
     // Llamar a la función draw() 60 veces por segundo
