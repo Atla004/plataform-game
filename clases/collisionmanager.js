@@ -4,7 +4,7 @@ class CollisionManager {
         this.blocks = mapOfCollision;
     }
 
-    /*
+    
     //!cuadro rojo para pero el hitbox del personaje
     draw(ctx) {
         this.blocks.forEach(block => {
@@ -16,7 +16,7 @@ class CollisionManager {
         });
     }
     //!cuadro rojo para pero el hitbox del personaje
-    */
+    
 
     applyCollision() {
         this.blocks.forEach(block => {

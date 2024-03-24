@@ -14,7 +14,7 @@ class levelCollision {
         const objects = [];
         rows.forEach((row, y) => {
             row.forEach((Symbol, x) => {
-                if(Symbol === 46){
+                if(Symbol !== 0){
                     objects.push({ position: {x: x * 50, y: y * 32, width:50 , height:32} });
                 }
             });
