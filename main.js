@@ -1,5 +1,24 @@
-import { Character } from './character.js';
-import { Platform } from './platform.js';
+import { Character } from './clases/character.js';
+import {  CollisionManager } from './clases/collisionmanager.js';
+import { Platform } from './clases/platform.js';
+import { levelCollision } from './clases/levelCollision.js';
+
+const collisionsLevel1=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 0, 0,
+    0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+    0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+    0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+    0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+    0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
+    0, 0, 46, 46, 46, 0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 0, 0,
+    0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0
+];
 
 // Configuración inicial
 let canvas = document.getElementById('canvas');
@@ -11,16 +30,17 @@ let leftPressed = false;
 
 //background
 let level1 = new Image();
-level1.src = 'level1/level1.png';
+level1.src = 'levels/level1.png';
 
 
 // bloques de colision
-const parsedCollisions = collisionsLevel1.parse2D()
-const collisionBlock = parsedCollisions.createObjectsFrom2D()
+const map1 = new levelCollision(collisionsLevel1);
+const collisionBlock = map1.collision();
 
 // Crear el personaje y la plataforma
-const character = new Character(ctx, canvas);
+const character = new Character(ctx, canvas );
 const platform = new Platform(ctx, canvas, character);
+const colision = new CollisionManager(character, collisionBlock);
 
 // lo hace mas rapido
 let startButton = document.querySelector('#startButton');
@@ -91,30 +111,20 @@ function keyUpHandler(e) {
 function draw() {
     // Limpiar el canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(144, 187, 133, 0.87)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(level1, 0, 0, canvas.width, canvas.height); //añadir el fondo
-
-
-    collisionBlock.forEach(collisions => collisions.draw(ctx)); 
+    //añadir el fondo
+    ctx.drawImage(level1, 0, 0, canvas.width, canvas.height); 
 
     // Dibujar el personaje
     character.draw();
 
-    platform.draw();
-    // platform.checkCollision(character);
+    colision.draw(ctx); //!dibuja los bloques de colision
 
-    //choques
-
-   
+    colision.applyCollision(ctx); //comprueba las colisiones
 
 
+    character.update();
 
-    
-
-
-    
     // Llamar a la función draw() 60 veces por segundo
     requestAnimationFrame(draw);
 }

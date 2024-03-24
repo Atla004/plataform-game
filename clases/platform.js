@@ -5,10 +5,12 @@ class Platform {
         this.movimiento = 2;
 
         // Posicion y de la plataforma
-        this.height = 5;
-        this.width = 100;
-        this.x = (canvas.width ) / 2;
-        this.y = canvas.height-50;
+        this.position = {
+            x: 500,
+            y: 350,
+            width: 80,
+            height: 50
+        }
 
         this.color = "red";
         this.character = character;
@@ -16,20 +18,24 @@ class Platform {
 
     draw() {
         this.ctx.beginPath();
-        this.ctx.rect(this.x, this.y, this.width, this.height);
+        this.ctx.rect(this.position.x, this.position.y, this.position.width, this.position.height);
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
         this.ctx.closePath();
+
         
     }
 
 
 
     movePlatform(){
-        this.x += this.movimiento;
-        if (this.x + this.width> this.canvas.width || this.x < 0) {
+        this.position.x += this.movimiento;
+        if (this.position.x + this.position.width> this.canvas.width || this.position.x < 0) {
             this.movimiento = -this.movimiento;
         } 
     }
+
+
+ 
 }
 export { Platform};
