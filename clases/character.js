@@ -94,7 +94,7 @@ class Character {
     //dibujo del sprite
     drawCharacter() {
         
-        //!cuadro rojo para pero el hitbox del personaje
+        
         this.ctx.beginPath();
         this.ctx.rect(this.position.x, this.position.y, this.position.width, this.position.height);
         this.ctx.fillStyle = "red";

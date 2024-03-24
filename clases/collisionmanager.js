@@ -1,13 +1,23 @@
-class Collision {
+class CollisionManager {
     constructor(character, mapOfCollision) {
         this.character = character;
         this.blocks = mapOfCollision;
     }
-    hay() {
 
+    //!cuadro rojo para pero el hitbox del personaje
+    draw(ctx) {
+        this.blocks.forEach(block => {
+            ctx.beginPath();
+            ctx.rect(block.position.x, block.position.y, block.position.width, block.position.height);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+        });
     }
+    //!cuadro rojo para pero el hitbox del personaje
 
-    checkCollision() {
+
+    applyCollision() {
         this.blocks.forEach(block => {
             let character = this.character.position;
             let dx = this.character.velocidad.dx;
@@ -71,4 +81,4 @@ class Collision {
 
 
 
-export {Collision};
+export {CollisionManager};
