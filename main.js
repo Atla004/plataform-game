@@ -1,5 +1,6 @@
-import { Character } from './character.js';
-import { Platform } from './platform.js';
+import { Character } from './clases/character.js';
+import { Collision } from './clases/collision.js';
+import { Platform } from './clases/platform.js';
 
 // Configuración inicial
 let canvas = document.getElementById('canvas');
@@ -21,6 +22,7 @@ const collisionBlock = parsedCollisions.createObjectsFrom2D()
 // Crear el personaje y la plataforma
 const character = new Character(ctx, canvas );
 const platform = new Platform(ctx, canvas, character);
+const colision = new Collision(character, collisionBlock);
 
 // lo hace mas rapido
 let startButton = document.querySelector('#startButton');
@@ -97,11 +99,15 @@ function draw() {
     ctx.drawImage(level1, 0, 0, canvas.width, canvas.height); //añadir el fondo
 
 
-    collisionBlock.forEach(collisions => collisions.draw(ctx)); 
+
     // Dibujar el personaje
     character.draw();
-
     platform.draw();
+    colision.checkCollision(ctx); //comprueba las colisiones
+
+    collisionBlock.forEach(collisions => collisions.draw(ctx)); 
+
+    character.update();
     // platform.checkCollision(character);
 
     //choques

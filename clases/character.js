@@ -18,7 +18,7 @@ class Character {
             maxSpeed: 4, 
             acceleration: 1, 
             initialSpeed: 4, 
-            jumpStrength: 14
+            jumpStrength: 18
         }
 
 
@@ -60,7 +60,6 @@ class Character {
         this.direction = 1; // 1 derecha, -1 izquierda
         this.formerMove = 0; //movimiento anterior
 
-        //movement boolean
 
 
     }
@@ -69,15 +68,15 @@ class Character {
     draw() {
         this.ctx.save(); //guarda el estado del canvas (solo sirve si flipImageIfNecessary() se ejecuta antes de createCharacter()
         this.flipImageIfNecessary(); //cambia la direccion del sprite si va a la izquierda
-        this.drawCharacter(); //dibuja el sprite
         this.keepCharacterinCanvas(); //evita que se mueva si se sale del canvas
+        this.drawCharacter(); //dibuja el sprite
         this.spriteAnimation(); //actualiza la animacion del sprite
-        this.update(); //actualiza la posicion del personaje para el siguiente ciclo
         this.ctx.restore(); //restaura el estado del canvas
     }
      
     //cambio de direccion del sprite (cuando corre al lado izquierdo)
     flipImageIfNecessary() {
+
         const setDirection =()=>{
             if(this.velocidad.dx !==0) {
                 this.velocidad.dx > 0? this.direction = 1 : this.direction = -1;
@@ -94,6 +93,16 @@ class Character {
     
     //dibujo del sprite
     drawCharacter() {
+        
+        //!cuadro rojo para pero el hitbox del personaje
+        this.ctx.beginPath();
+        this.ctx.rect(this.position.x, this.position.y, this.position.width, this.position.height);
+        this.ctx.fillStyle = "red";
+        this.ctx.fill();
+        this.ctx.closePath();
+        //!cuadro rojo para pero el hitbox del personaje
+
+
         this.ctx.drawImage(
             this.sprite,
             this.initialSpriteWidth + this.frameX * 32,
@@ -105,6 +114,8 @@ class Character {
             this.position.width,
             this.position.height
         );
+
+
     }
 
     //movimiento del personaje
