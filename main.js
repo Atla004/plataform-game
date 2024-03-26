@@ -8,17 +8,19 @@ Charcter (ctx, canvas,ancho del Personaje , Altura del Personaje)
     .draw() //dibuja el personaje
     .update() //actualiza la posicion del personaje
 
+levelCollision (array de colisiones del nivel)
+    .collision() //devuelve un array de colisiones para poder aplicarlas al CollisionManager
+
 CollisionManager (Personaje,  bloque al que se le quiera aplicar colision) 
-    .draw() //dibuja los bloques de colision
+    .draw(ctx) //dibuja los bloques de colision
+    .drawDoor(ctx) // Dibuja los bloques de colision de la puerta
     .applyCollision() //aplica las colisiones
+    .applyDoor() // cuando estas dentro de la puerta retorna true
 
 Platform (ctx, canvas, x, y, ancho, alto)
     .draw() //dibuja la plataforma
     .drawDoor() //dibuja la puerta
     .movePlatform() //mueve la plataforma
-
-levelCollision (array de colisiones del nivel)
-    .collision() //devuelve un array de colisiones para poder aplicarlas al CollisionManager
 */
 
 
@@ -52,38 +54,13 @@ document.addEventListener('keyup', keyUpHandler);
 
  // movimientos del personaje 
 function keyDownHandler(e) {
+    
     if(e.key === "ArrowRight") {
         rightPressed = true;
     }
     if(e.key === "ArrowLeft") {
         leftPressed = true;
     }
-
-
-    if( leftPressed &&  rightPressed) { 
-        leftPressed = false;
-        rightPressed = false;
-        character.velocidad.dx = 0;
-    }else{
-        if(e.key === "ArrowRight") {
-            rightPressed = true;
-            if (character.velocidad.dx <= 0) { 
-                character.velocidad.dx = character.parameters.initialSpeed; // velocidad inicial
-            } else if (character.velocidad.dx < character.parameters.maxSpeed) { // 
-                character.velocidad.dx += character.parameters.acceleration; // Aumenta la velocidad derecha
-            }
-        }
-        if(e.key === "ArrowLeft") {
-            leftPressed = true;
-            if (character.velocidad.dx >= 0) { 
-                character.velocidad.dx = -character.parameters.initialSpeed; // velocidad inicial
-            } else if (character.velocidad.dx > -character.parameters.maxSpeed) { // 
-                character.velocidad.dx -= character.parameters.acceleration; // Aumenta la velocidad izquierda
-            }
-        }
-
-    }
-
     if(e.key === "ArrowUp") { 
         if(character.onGround === true)
         character.velocidad.dy = -character.parameters.jumpStrength  // Hace que la pelota salte
@@ -95,11 +72,29 @@ function keyUpHandler(e) {
     if(e.key === "ArrowRight") {
       rightPressed = false;
       character.velocidad.dx = 0;
-    }else if(e.key === "ArrowLeft") {
+    }
+    if(e.key === "ArrowLeft") {
       leftPressed = false;
       character.velocidad.dx = 0;
     }
 
+}
+
+function movement(){
+    if(rightPressed == true && leftPressed == true){
+        character.velocidad.dx =0
+        return
+    }
+    if(rightPressed == true) {
+        if (character.velocidad.dx <= 0) { 
+            character.velocidad.dx = character.parameters.initialSpeed; // velocidad inicial
+        } 
+    }
+    if(leftPressed == true) {
+        if (character.velocidad.dx >= 0) { 
+            character.velocidad.dx = -character.parameters.initialSpeed; // velocidad inicial
+        } 
+    }
 }
 
 let change= false;
@@ -181,7 +176,7 @@ let levels = {
             
             platform1.draw(); //dibuja las plataformas
 
-            //collisionplatform1.applyCollision(ctx); //!aplica las colisiones de la plataforma
+            collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
 
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
@@ -215,6 +210,8 @@ let levels = {
             let door = new Platform(ctx, canvas, 650, 400, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
+            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200)
+            let collisionplatform1 = new CollisionManager ( character,plataforma1);
             
             
             
@@ -226,9 +223,14 @@ let levels = {
             ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height); 
             
             colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
+            collisionplatform1.draw(ctx)
+            collisionplatform1.applyCollision()
+            
             
             
             character.draw(); //Dibuja el personaje
+
+            
 
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
@@ -246,6 +248,7 @@ let levels = {
 function draw() {
     //soundtrack
     levelsoundtrack.play();
+    movement();
 
 
 
