@@ -176,7 +176,7 @@ let levels = {
             
             platform1.draw(); //dibuja las plataformas
 
-            collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
+            // collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
 
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
@@ -198,6 +198,7 @@ let levels = {
         inity:780,
 
         init:()=>{
+            let radius = 100;
 
             
             levelbackground.src = 'levels/level2.png';
@@ -210,27 +211,48 @@ let levels = {
             let door = new Platform(ctx, canvas, 650, 400, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
-            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200)
-            let collisionplatform1 = new CollisionManager ( character,plataforma1);
+            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200) //?
+            let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
+            
+            
+            
+
+
+            
+            //añadir el fondo
+            let x = character.position.x;
+            let y = character.position.y;
+            let width = character.position.width;
+            let height = character.position.height;
             
             
             
             // Limpiar el canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            //TODO Creacion del circulo donde se va a ver el personaje 
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(x+ width/2, y+ height/2, radius, 0, Math.PI * 2);
+            ctx.clip();
+            
+            // Background
             door.drawDoor(); // dibuja la puerta
-            //añadir el fondo
-            ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height); 
-            
             colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
-            collisionplatform1.draw(ctx)
-            collisionplatform1.applyCollision()
+            ctx.drawImage(levelbackground, 0, 0);
+            //collisionplatform1.draw(ctx) //?
+        
+            //TODO cierre del circulo donde se va a ver el personaje 
+            ctx.restore();
+
+       
+            collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
             
             
             
             character.draw(); //Dibuja el personaje
-
-            
 
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
