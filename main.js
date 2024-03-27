@@ -123,22 +123,21 @@ let levels = {
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0
         ],
-        2:[105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105,
-            105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 0, 0, 105, 105, 105, 105, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 105,
-            105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105
-        ],
+        2:[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 0, 0, 19, 19, 19, 19, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
+            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
     },
     1: {
         initx: 200,
@@ -196,6 +195,7 @@ let levels = {
     2: {
         initx:60,
         inity:780,
+        trigger: true,
 
         init:()=>{
             let radius = 100;
@@ -208,11 +208,14 @@ let levels = {
             character.inity =    levels[level].inity  // punto de partida del jugador
 
             //puerta
-            let door = new Platform(ctx, canvas, 650, 400, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
             let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200) //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
+
+            let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50) //?
+            let collisionplatform2 = new CollisionManager ( character,plataform2); //?
             
             
             
@@ -236,20 +239,26 @@ let levels = {
             ctx.save();
             ctx.beginPath();
             ctx.arc(x+ width/2, y+ height/2, radius, 0, Math.PI * 2);
-            ctx.clip();
+            ctx.clip(); 
             
             // Background
-            door.drawDoor(); // dibuja la puerta
-            colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
             ctx.drawImage(levelbackground, 0, 0);
-            //collisionplatform1.draw(ctx) //?
-        
+            door.drawDoor(); // dibuja la puerta
+
+            if(collisionplatform2.checkcollision()){
+                levels[2].trigger = false;
+            }
+            
+            if(levels[2].trigger){
+                plataforma1.draw();
+                collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
+            }
+            
             //TODO cierre del circulo donde se va a ver el personaje 
             ctx.restore();
 
-       
-            collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
-            
+
+
             
             
             character.draw(); //Dibuja el personaje
@@ -258,7 +267,10 @@ let levels = {
             character.update();
             
             if(colisionDoor.applyDoor()){
+                level=0;
                 change= true;
+                levels[2].trigger = true;
+
 
             } //entro en la puerta
 

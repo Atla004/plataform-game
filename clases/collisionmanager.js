@@ -24,13 +24,6 @@ class CollisionManager {
     
     //!cuadro rojo para pero el hitbox de la puerta
     drawDoor(ctx) {
-/*
-        let obj = block.position;
-        let arriba   = obj.y + 20 
-        let abajo = obj.y + obj.height + 20
-        let izq = obj.x
-        let der = obj.x + obj.width
-*/
         const drawBlock = (block) => {
             let obj = block.position;
 
@@ -151,6 +144,27 @@ class CollisionManager {
 
         
     }
+
+    checkcollision(){
+        let block = this.blocks;
+
+        let character = this.character.position;
+        let dx = this.character.velocidad.dx;
+        let dy = this.character.velocidad.dy;
+        let obj = block.position;
+
+        let pie  = character.y + character.height 
+        let cabeza = character.y 
+        let manoizq = character.x 
+        let manoder = character.x + character.width 
+        let arriba   = obj.y  
+        let abajo = obj.y + obj.height
+        let izq = obj.x
+        let der = obj.x + obj.width
+
+        return (pie + dy > arriba && cabeza +dy < abajo && manoder + dx > izq && manoizq + dx < der)
+    }
+
 }
 
 
