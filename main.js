@@ -4,7 +4,7 @@ import { Platform } from './clases/platform.js';
 import { levelCollision } from './clases/levelCollision.js';
 
 /*
-Charcter (ctx, canvas,ancho del Personaje , Altura del Personaje)
+Character (ctx, canvas,ancho del Personaje , Altura del Personaje)
     .draw() //dibuja el personaje
     .update() //actualiza la posicion del personaje
 
