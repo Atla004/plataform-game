@@ -1,15 +1,17 @@
 class Character {
-    constructor(ctx, canvas, x, y, width, height) {
+    constructor(ctx, canvas, width, height) {
         this.ctx = ctx;
         this.canvas = canvas;
+        this.initx = 800;
+        this.inity = 800;
 
         this.sprite = new Image();
         this.sprite.src = 'adventurer.png';
 
         // Posicion de aparicion del personaje y tamaño
         this.position = { 
-            x: x, 
-            y: y,
+            x: this.initx, 
+            y: this.inity,
             width: width,
             height: height
         }
@@ -229,8 +231,8 @@ class Character {
         //evita que el personaje se salga del canvas verticalmente
         if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { 
             if ( this.position.y == this.canvas.height - this.position.height) { // lleva a su posicion inicial si cae al vacio
-                this.position.y = 200;
-                this.position.x = 200;
+                this.position.y = this.inity;
+                this.position.x = this.initx;
                 this.move=0;
             }else{
             this.velocidad.dy = 0;

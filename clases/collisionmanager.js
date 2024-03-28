@@ -5,18 +5,42 @@ class CollisionManager {
     }
 
     
-    //!cuadro rojo para pero el hitbox del personaje
+    //!cuadro rojo para pero el hitbox de la plataforma
     draw(ctx) {
-        this.blocks.forEach(block => {
+        const drawBlock = (block) => {
             ctx.beginPath();
             ctx.rect(block.position.x, block.position.y, block.position.width, block.position.height);
             ctx.fillStyle = "red";
             ctx.fill();
             ctx.closePath();
-        });
+        }
+        
+        Array.isArray(this.blocks) ? 
+        this.blocks.forEach(block => { drawBlock(block); }) //si son las colisiones del mapa
+        : drawBlock(this.blocks); // si es una plataforma
+        
     }
-    //!cuadro rojo para pero el hitbox del personaje
+    //!cuadro rojo para pero el hitbox de la plataforma
     
+    //!cuadro rojo para pero el hitbox de la puerta
+    drawDoor(ctx) {
+        const drawBlock = (block) => {
+            let obj = block.position;
+
+
+            
+            
+            ctx.beginPath();
+            ctx.rect(obj.x + obj.width*(3/8), obj.y, obj.width/4, obj.height);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.closePath();
+        }
+        
+        drawBlock(this.blocks); // si es una plataforma
+        
+    }
+    //!cuadro rojo para pero el hitbox de la puerta
 
     applyCollision() {
         let blocks = this.blocks;
@@ -83,6 +107,64 @@ class CollisionManager {
 
     
     }
+
+    applyDoor() {
+        let blocks = this.blocks;
+
+        const applyCollision = (block) => {
+            let character = this.character.position;
+            let dx = this.character.velocidad.dx;
+            let dy = this.character.velocidad.dy;
+            
+            let pie  = character.y + character.height 
+            let cabeza = character.y 
+            let manoizq = character.x 
+            let manoder = character.x + character.width 
+            
+            let obj = block.position;
+            obj.x += obj.width*(3/8);
+            obj.width = obj.width/4;
+            let arriba   = obj.y
+            let abajo = obj.y + obj.height 
+            let izq = obj.x
+            let der = obj.x + obj.width
+        
+
+            //comprueba si hay colision
+            let collision = () => {
+                return (pie + dy > arriba && cabeza +dy < abajo && manoder + dx > izq && manoizq + dx < der)
+            }
+            
+            // si hay colision, comprueba el sitio de la colision, y toma medidas
+            return collision();
+            
+        }
+
+        return applyCollision(blocks); // si es una plataforma
+
+        
+    }
+
+    checkcollision(){
+        let block = this.blocks;
+
+        let character = this.character.position;
+        let dx = this.character.velocidad.dx;
+        let dy = this.character.velocidad.dy;
+        let obj = block.position;
+
+        let pie  = character.y + character.height 
+        let cabeza = character.y 
+        let manoizq = character.x 
+        let manoder = character.x + character.width 
+        let arriba   = obj.y  
+        let abajo = obj.y + obj.height
+        let izq = obj.x
+        let der = obj.x + obj.width
+
+        return (pie + dy > arriba && cabeza +dy < abajo && manoder + dx > izq && manoizq + dx < der)
+    }
+
 }
 
 
