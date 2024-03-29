@@ -1,5 +1,5 @@
 class Platform {
-    constructor(ctx, canvas, x , y, width, height) {
+    constructor(ctx, canvas, x , y, width, height,color) {
         this.ctx = ctx;
         this.canvas = canvas;
         this.movimiento = 2;
@@ -12,7 +12,8 @@ class Platform {
             height: height
         }
 
-        this.color = "rgb(112, 146, 190)";
+        this.color = color
+        ;
 
     }
 

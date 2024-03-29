@@ -17,7 +17,7 @@ CollisionManager (Personaje,  bloque al que se le quiera aplicar colision)
     .applyCollision() //aplica las colisiones
     .applyDoor() // cuando estas dentro de la puerta retorna true
 
-Platform (ctx, canvas, x, y, ancho, alto)
+Platform (ctx, canvas, x, y, ancho,  alto, color)
     .draw() //dibuja la plataforma
     .drawDoor() //dibuja la puerta
     .movePlatform() //mueve la plataforma
@@ -152,7 +152,7 @@ let levels = {
             character.inity =    levels[level].inity  // punto de partida del jugador
 
             // Crea Bloques de Colision de las plataformas            
-            let platform1 = new Platform(ctx, canvas,250, 288, 100, 300); // crea plataforma ( la dibuja con metodo draw())
+            let platform1 = new Platform(ctx, canvas,250, 288, 100, 300,"rgba(69,238,0,1)"); // crea plataforma ( la dibuja con metodo draw())
             let collisionplatform1 = new CollisionManager(character, platform1); // aplica las colisiones con  metodo applyCollision(ctx)
             
             //puerta
@@ -175,7 +175,7 @@ let levels = {
             
             platform1.draw(); //dibuja las plataformas
 
-            // collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
+            //collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
 
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
@@ -211,10 +211,10 @@ let levels = {
             let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
-            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200) //?
+            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200,"rgb(69,238,221)") //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
 
-            let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50) //?
+            let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
             let collisionplatform2 = new CollisionManager ( character,plataform2); //?
             
             
@@ -248,6 +248,7 @@ let levels = {
             if(collisionplatform2.checkcollision()){
                 levels[2].trigger = false;
             }
+
             
             if(levels[2].trigger){
                 plataforma1.draw();
