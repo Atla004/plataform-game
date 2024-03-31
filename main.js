@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level = 1;
+let level = 2;
 let levels = {
     collision: {
         apply: ()=>{
@@ -248,6 +248,7 @@ let levels = {
             if(collisionplatform2.checkcollision()){
                 levels[2].trigger = false;
             }
+            
             
             if(levels[2].trigger){
                 plataforma1.draw();
