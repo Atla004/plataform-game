@@ -2,7 +2,7 @@ import { Character } from './clases/character.js';
 import {  CollisionManager } from './clases/collisionmanager.js';
 import { Platform } from './clases/platform.js';
 import { levelCollision } from './clases/levelCollision.js';
-
+// 
 /*
 Character (ctx, canvas,ancho del Personaje , Altura del Personaje)
     .draw() //dibuja el personaje

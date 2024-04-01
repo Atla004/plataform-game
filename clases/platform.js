@@ -4,6 +4,7 @@ class Platform {
         this.canvas = canvas;
         this.movimiento = 2;
 
+        
         // Posicion y de la plataforma
         this.position = {
             x: x,
