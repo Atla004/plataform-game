@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level = 2;
+let level = 1;
 let levels = {
     collision: {
         apply: ()=>{
@@ -173,7 +173,7 @@ let levels = {
             door.drawDoor(); // dibuja la puerta
             character.draw(); //Dibuja el personaje
             
-            platform1.draw(); //dibuja las plataformas
+            // platform1.draw(); //dibuja las plataformas
 
             // collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
 
@@ -201,7 +201,7 @@ let levels = {
             let radius = 100;
 
             
-            levelbackground.src = 'levels/level2.png';
+            levelbackground.src = 'levels/lvl2.png';
 
             levels.collision.apply();
             character.initx =     levels[level].initx // punto de partida del jugador
