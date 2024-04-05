@@ -223,8 +223,6 @@ let levels = {
             let collisionplatform2 = new CollisionManager ( character,plataform2); //?
             
             
-            
-
 
             
             //añadir el fondo
@@ -257,19 +255,28 @@ let levels = {
             
             
             if(levels[2].trigger){
+
                 let x= new Image()
                 x.src = '/levels/tilset.png'
-    
                 plataforma1.drawImage(x);
+
                 collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
+            
+                
+                
             }
             
+            let puas = new Platform(ctx, canvas, 162, 108, 100, 70) //?
+            let colisionpuas = new CollisionManager ( character, puas); //?
+            // colisionpuas.draw(ctx);
+            
+            let p= new Image()
+                p.src = '/levels/PUAS.png'
+                puas.drawImage(p);
             //TODO cierre del circulo donde se va a ver el personaje 
             ctx.restore();
 
 
-
-            
             
             character.draw(); //Dibuja el personaje
 
