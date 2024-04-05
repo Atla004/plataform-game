@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level = 1;
+let level =2;
 let levels = {
     collision: {
         apply: ()=>{
@@ -192,6 +192,7 @@ let levels = {
             
             if(colisionDoor.applyDoor()){
                 change= true;
+
             } //entro en la puerta
 
         }
@@ -201,35 +202,42 @@ let levels = {
         initx:60,
         inity:780,
         trigger: true,
-        trigger2: true,
-
+        trigger2: false,
         init:()=>{
-            let radius = 100;
-            let pua= new Image()
-            pua.src = '/levels/tilset.png'
+            console.log(character.position.x, character.position.y)
 
+            
+            character.initx =     levels[level].initx // punto de partida del jugador
+            character.inity =    levels[level].inity  // punto de partida del jugador
             
             levelbackground.src = 'levels/lvl2.png';
 
-            levels.collision.apply();
-            character.initx =     levels[level].initx // punto de partida del jugador
-            character.inity =    levels[level].inity  // punto de partida del jugador
 
+            levels.collision.apply();
+            
             //puerta
             let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
             let plataforma1 = new Platform(ctx, canvas, 601, 365, 40, 80,"rgb(69,238,221)") //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
+            
+            let radius = 100;
+            let p= new Image()
+            p.src = '/levels/PUAS.png'
 
+            let tile= new Image()
+            tile.src = '/levels/tilset.png'
+            
             let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
             let collisionplatform2 = new CollisionManager ( character,plataform2); //?
 
-            let plataform3 = new Platform(ctx, canvas, 500, 200, 10, 50,"rgb(112, 146, 190)") //?
-            let collisionplatform3 = new CollisionManager ( character,plataform3); //?
+            
+            let puas = new Platform(ctx, canvas, 162, 108, 100, 70,"red") //?
+            let colisionpuas = new CollisionManager ( character, puas); //?
             
             
-
+            
             
             //añadir el fondo
             let x = character.position.x;
@@ -252,39 +260,40 @@ let levels = {
             
             // Background
             ctx.drawImage(levelbackground, 0, 0);
+            puas.drawImage(p);
+            
             door.drawDoor(); // dibuja la puerta
-
+            
             if(collisionplatform2.checkcollision()){
                 levels[2].trigger = false;
             }
-
             
             
-            if(levels[2].trigger){
-
-
-                plataforma1.drawImage(x);
-
-                collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
-            
-                
+            if(colisionpuas.checkcollision()){
+                levels[2].trigger2 = true;
+                character.dead = true;
                 
             }
             
-            let puas = new Platform(ctx, canvas, 162, 108, 100, 70) //?
-            let colisionpuas = new CollisionManager ( character, puas); //?
+            if(levels[2].trigger2){
+                puas.drawImage(p) //!colision de plataforma para evitar llegar al level 3
+            }
+            
+            if(levels[2].trigger){
+                plataforma1.drawImage(tile);
+                collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
+            }
+
             // colisionpuas.draw(ctx);
             
-            let p= new Image()
-                p.src = '/levels/PUAS.png'
-                puas.drawImage(p);
+            
             //TODO cierre del circulo donde se va a ver el personaje 
             ctx.restore();
 
 
             
             character.draw(); //Dibuja el personaje
-
+            
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
             
@@ -292,6 +301,7 @@ let levels = {
                 level=0;
                 change= true;
                 levels[2].trigger = true;
+
 
 
             } //entro en la puerta
@@ -305,6 +315,7 @@ function draw() {
     //soundtrack
     levelsoundtrack.play();
     movement();
+    console.log(character.position.x, character.position.y)
 
 
 

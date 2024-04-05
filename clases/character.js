@@ -2,8 +2,8 @@ class Character {
     constructor(ctx, canvas, width, height) {
         this.ctx = ctx;
         this.canvas = canvas;
-        this.initx = 800;
-        this.inity = 800;
+        this.initx = 1000;
+        this.inity = 1000;
         
         this.hitbox = {
             position: {

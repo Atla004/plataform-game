@@ -73,14 +73,14 @@ class CollisionManager {
 
                         this.character.velocidad.dy = 0;
                         this.character.position.y = arriba - character.height-5 ;
-                        console.log("arriba")
+        
                         
 
                     }
                     if( pie > abajo){//personaje abajo del bloque
                         this.character.velocidad.dy = 0;
                         this.character.position.y = abajo;
-                        console.log("abajo")
+            
                     }
                 }
                 if(pie > arriba && cabeza < abajo){
@@ -92,7 +92,7 @@ class CollisionManager {
                     if(manoder > izq){//personaje a la derecha del bloque
                         this.character.velocidad.dx = 0;
                         this.character.position.x = this.character.hitbox.position.x - 15;
-                        console.log("derecha")
+                      
                     }
 
                 }
