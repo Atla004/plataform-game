@@ -87,11 +87,11 @@ class CollisionManager {
                     if(manoizq < der){ //personaje a la izquierda del bloque
 
                         this.character.velocidad.dx = 0;
-                        this.character.position.x = izq - character.width-10;
+                        this.character.position.x = izq - character.width-12;
                     }
                     if(manoder > izq){//personaje a la derecha del bloque
                         this.character.velocidad.dx = 0;
-                        this.character.position.x = this.character.hitbox.position.x - 15;
+                        this.character.position.x = this.character.hitbox.position.x -12;
                       
                     }
 
