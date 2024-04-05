@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level = 2;
+let level = 1;
 let levels = {
     collision: {
         apply: ()=>{
@@ -182,7 +182,7 @@ let levels = {
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
 
-            
+            collisionplatform2.draw(ctx); //!dibuja el hitbox de la plataforma
             if(collisionplatform2.checkcollision()){
                 character.dead = true;
             }
@@ -201,9 +201,12 @@ let levels = {
         initx:60,
         inity:780,
         trigger: true,
+        trigger2: true,
 
         init:()=>{
             let radius = 100;
+            let pua= new Image()
+            pua.src = '/levels/tilset.png'
 
             
             levelbackground.src = 'levels/lvl2.png';
@@ -221,6 +224,9 @@ let levels = {
 
             let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
             let collisionplatform2 = new CollisionManager ( character,plataform2); //?
+
+            let plataform3 = new Platform(ctx, canvas, 500, 200, 10, 50,"rgb(112, 146, 190)") //?
+            let collisionplatform3 = new CollisionManager ( character,plataform3); //?
             
             
 
@@ -256,8 +262,7 @@ let levels = {
             
             if(levels[2].trigger){
 
-                let x= new Image()
-                x.src = '/levels/tilset.png'
+
                 plataforma1.drawImage(x);
 
                 collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
