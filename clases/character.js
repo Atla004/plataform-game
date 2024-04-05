@@ -125,6 +125,7 @@ class Character {
             this.position.width,
             this.position.height
         );
+        
 
     
         
@@ -215,6 +216,7 @@ class Character {
     }
 
     update() {
+        
 
         const updateSound = ()=> {
             

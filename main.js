@@ -182,17 +182,12 @@ let levels = {
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
 
-            collisionplatform2.draw(ctx); //!dibuja el hitbox de la plataforma
-            if(collisionplatform2.checkcollision()){
-                character.dead = true;
-            }
 
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
             
             if(colisionDoor.applyDoor()){
                 change= true;
-
             } //entro en la puerta
 
         }
@@ -200,11 +195,10 @@ let levels = {
     },
     2: {
         initx:60,
-        inity:780,
+        inity:400,
         trigger: true,
         trigger2: false,
         init:()=>{
-            console.log(character.position.x, character.position.y)
 
             
             character.initx =     levels[level].initx // punto de partida del jugador
@@ -219,7 +213,7 @@ let levels = {
             let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
-            let plataforma1 = new Platform(ctx, canvas, 601, 365, 40, 80,"rgb(69,238,221)") //?
+            let plataforma1 = new Platform(ctx, canvas, 600, 365, 40, 80,"rgb(69,238,221)") //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
             
             let radius = 100;
@@ -229,12 +223,16 @@ let levels = {
             let tile= new Image()
             tile.src = '/levels/tilset.png'
             
-            let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
-            let collisionplatform2 = new CollisionManager ( character,plataform2); //?
+            let detect = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
+            let colisiondetect = new CollisionManager ( character,detect); //?
+
 
             
-            let puas = new Platform(ctx, canvas, 162, 108, 100, 70,"red") //?
+            let puas = new Platform(ctx, canvas, 100, 108, 100, 70,"red") //?
             let colisionpuas = new CollisionManager ( character, puas); //?
+
+            let detect2 = new Platform(ctx, canvas, 60, 108, 50, 70,"red") //?
+            let colisiondetect2 = new CollisionManager ( character, detect2); //?
             
             
             
@@ -260,24 +258,28 @@ let levels = {
             
             // Background
             ctx.drawImage(levelbackground, 0, 0);
-            puas.drawImage(p);
             
             door.drawDoor(); // dibuja la puerta
             
-            if(collisionplatform2.checkcollision()){
+            if(colisiondetect.checkcollision()){
                 levels[2].trigger = false;
             }
             
             
-            if(colisionpuas.checkcollision()){
+            
+
+            if(colisiondetect2.checkcollision()){
                 levels[2].trigger2 = true;
                 character.dead = true;
+                levels[2].trigger = true;
                 
             }
-            
-            if(levels[2].trigger2){
-                puas.drawImage(p) //!colision de plataforma para evitar llegar al level 3
+
+            if(character.dead == true){
+                puas.drawImage(p);
             }
+            
+
             
             if(levels[2].trigger){
                 plataforma1.drawImage(tile);
@@ -297,6 +299,7 @@ let levels = {
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
             
+            
             if(colisionDoor.applyDoor()){
                 level=0;
                 change= true;
@@ -312,24 +315,27 @@ let levels = {
 
 // Función para actualizar el juego cada frame
 function draw() {
+    
     //soundtrack
     levelsoundtrack.play();
     movement();
-    console.log(character.position.x, character.position.y)
-
-
-
-
-    //nivel
+    
+    
+    
     levels[level].init();
 
+    //nivel
+    
     if (change){
         level++;
-        character.position.x = levels[level].initx
-        character.position.y = levels[level].inity 
+        character.update();
+        levels[level].init();
+        character.position.x = levels[level].initx;
+        character.position.y = levels[level].inity;
         change = false;
     }
 
+    
 
 
 
