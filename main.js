@@ -216,15 +216,13 @@ let levels = {
             let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
-            let plataforma1 = new Platform(ctx, canvas, 600, 360, 60, 87,"rgb(69,238,221)") //?
+            let plataforma1 = new Platform(ctx, canvas, 601, 365, 40, 80,"rgb(69,238,221)") //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
 
             let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
             let collisionplatform2 = new CollisionManager ( character,plataform2); //?
             
             
-            
-
 
             
             //añadir el fondo
@@ -257,19 +255,28 @@ let levels = {
             
             
             if(levels[2].trigger){
+
                 let x= new Image()
-                x.src = '/levels/icons8-pene-64.png'
-    
+                x.src = '/levels/tilset.png'
                 plataforma1.drawImage(x);
+
                 collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
+            
+                
+                
             }
             
+            let puas = new Platform(ctx, canvas, 162, 108, 100, 70) //?
+            let colisionpuas = new CollisionManager ( character, puas); //?
+            // colisionpuas.draw(ctx);
+            
+            let p= new Image()
+                p.src = '/levels/PUAS.png'
+                puas.drawImage(p);
             //TODO cierre del circulo donde se va a ver el personaje 
             ctx.restore();
 
 
-
-            
             
             character.draw(); //Dibuja el personaje
 
