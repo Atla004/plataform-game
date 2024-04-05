@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level = 1;
+let level = 2;
 let levels = {
     collision: {
         apply: ()=>{
@@ -216,7 +216,7 @@ let levels = {
             let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
-            let plataforma1 = new Platform(ctx, canvas, 600, 360, 100, 200,"rgb(69,238,221)") //?
+            let plataforma1 = new Platform(ctx, canvas, 600, 360, 60, 87,"rgb(69,238,221)") //?
             let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
 
             let plataform2 = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
@@ -258,7 +258,7 @@ let levels = {
             
             if(levels[2].trigger){
                 let x= new Image()
-                x.src = 'public/pua.jpg'
+                x.src = '/levels/icons8-pene-64.png'
     
                 plataforma1.drawImage(x);
                 collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
