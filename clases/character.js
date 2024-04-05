@@ -4,7 +4,15 @@ class Character {
         this.canvas = canvas;
         this.initx = 800;
         this.inity = 800;
-
+        
+        this.hitbox = {
+            position: {
+                x: this.initx + 7,
+                y: this.inity + 4,
+                width: 31,
+                height: 42,
+            },
+        };
         this.dead = false;
 
         this.sprite = new Image();
@@ -17,6 +25,8 @@ class Character {
             width: width,
             height: height
         }
+
+
 
         this.parameters = {
             maxSpeed: 4, 
@@ -108,13 +118,16 @@ class Character {
             this.sprite,
             this.initialSpriteWidth + this.frameX * 32,
             this.initialSpriteHeight + this.frameY * 32,
-            this.spriteWidth,
-            this.spriteHeight,
+            this.spriteWidth+3,
+            this.spriteHeight+3,
             this.direction === -1 ? -this.position.x - this.position.width : this.position.x,
             this.position.y,
             this.position.width,
             this.position.height
         );
+
+    
+        
 
 
     }
@@ -174,7 +187,35 @@ class Character {
         }
     }
     
+    updateHitbox() {
+        if(this.direction === -1) {
+
+            this.hitbox.position.x = this.position.x +15;
+            this.hitbox.position.y = this.position.y + 5;
+            this.hitbox.position.width = this.position.width-25;
+            this.hitbox.position.height = this.position.height- 10;
+        }else{
+        this.hitbox.position.x = this.position.x + 10;
+        this.hitbox.position.y = this.position.y +5;
+        this.hitbox.position.width = this.position.width -25;
+        this.hitbox.position.height = this.position.height - 10;
+        }
+        
+
+        this.drawHitbox();
+
+    }
+
+    drawHitbox = () => {
+        this.ctx.beginPath();
+        this.ctx.rect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.position.width, this.hitbox.position.height);
+        this.ctx.fillStyle = "rgba(204, 15, 15, 0.400)";
+        this.ctx.fill();
+        this.ctx.closePath();
+    }
+
     update() {
+
         const updateSound = ()=> {
             
             //sonido de movimiento
@@ -246,7 +287,8 @@ class Character {
         updateSound(); //actualiza sonidos
         updateFrame(); //actualiza el sprite para crear animacion   
         updatePosition(); //actualiza posicion para siguiente ciclo
-        
+        this.updateHitbox();
+
     }
     
     

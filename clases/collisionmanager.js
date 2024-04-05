@@ -46,7 +46,7 @@ class CollisionManager {
         let blocks = this.blocks;
 
         const applyCollision = (block) => {
-            let character = this.character.position;
+            let character = this.character.hitbox.position;
             let dx = this.character.velocidad.dx;
             let dy = this.character.velocidad.dy;
             let obj = block.position;
@@ -72,23 +72,27 @@ class CollisionManager {
                     if( cabeza < arriba){ //personaje arriba del bloque
 
                         this.character.velocidad.dy = 0;
-                        this.character.position.y = arriba - character.height;
+                        this.character.position.y = arriba - character.height-5 ;
+                        console.log("arriba")
                         
 
                     }
                     if( pie > abajo){//personaje abajo del bloque
                         this.character.velocidad.dy = 0;
                         this.character.position.y = abajo;
+                        console.log("abajo")
                     }
                 }
                 if(pie > arriba && cabeza < abajo){
                     if(manoizq < der){ //personaje a la izquierda del bloque
+
                         this.character.velocidad.dx = 0;
-                        this.character.position.x = izq - character.width;
+                        this.character.position.x = izq - character.width-10;
                     }
                     if(manoder > izq){//personaje a la derecha del bloque
                         this.character.velocidad.dx = 0;
-                        this.character.position.x = der;
+                        this.character.position.x = this.character.hitbox.position.x - 15;
+                        console.log("derecha")
                     }
 
                 }
@@ -112,7 +116,7 @@ class CollisionManager {
         let blocks = this.blocks;
 
         const applyCollision = (block) => {
-            let character = this.character.position;
+            let character = this.character.hitbox.position;
             let dx = this.character.velocidad.dx;
             let dy = this.character.velocidad.dy;
             
@@ -148,7 +152,7 @@ class CollisionManager {
     checkcollision(){
         let block = this.blocks;
 
-        let character = this.character.position;
+        let character = this.character.hitbox.position;
         let dx = this.character.velocidad.dx;
         let dy = this.character.velocidad.dy;
         let obj = block.position;
