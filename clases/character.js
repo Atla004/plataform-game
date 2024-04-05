@@ -202,7 +202,7 @@ class Character {
         }
         
 
-        this.drawHitbox();
+        //this.drawHitbox();
 
     }
 
