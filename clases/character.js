@@ -5,6 +5,8 @@ class Character {
         this.initx = 800;
         this.inity = 800;
 
+        this.dead = false;
+
         this.sprite = new Image();
         this.sprite.src = 'adventurer.png';
 
@@ -61,9 +63,6 @@ class Character {
         this.numFramexSprite = 0; // Numero de frames que dura cada sprite
         this.direction = 1; // 1 derecha, -1 izquierda
         this.formerMove = 0; //movimiento anterior
-
-
-
     }
 
     //dibujo del sprite en el canvas
@@ -151,13 +150,27 @@ class Character {
             this.numFramesxAction = 12;
             this.move=0;
         }
+
+        const deadAnimation = () => {
+            this.frameY = 7;
+            this.numFramexSprite = 10;
+            this.numFramesxAction = 6;
+            this.move=3;
+            this.velocidad.dx = 0;
+            this.velocidad.dy = 0;
+        }
         
-        if (this.onGround === false) {
-            jumpPressed();
-        } else if (this.velocidad.dx>0 || this.velocidad.dx<0) {
-            sidesPressed();
-        } else {
-            noMovement();
+        if (this.dead === true) {
+            deadAnimation();
+            
+        } else{
+            if (this.onGround === false) {
+                jumpPressed();
+            } else if (this.velocidad.dx>0 || this.velocidad.dx<0) {
+                sidesPressed();
+            } else {
+                noMovement();
+            }
         }
     }
     
@@ -175,14 +188,31 @@ class Character {
         
         //movimiento de los frames para formar la animacion
         const updateFrame = () => {
-            
-            
+
             //reinicio de la animacion si cambia de movimiento
             if (this.move !== this.formerMove){
                 this.frameCount = 0; 
                 this.formerMove = this.move;
                 this.frameX = 0;
             }
+
+            //animacion de muerte
+            if (this.move === 3) {
+                this.frameCount += 1;
+                if (this.frameCount > this.numFramexSprite) {
+                    this.frameCount = 0;
+                    this.frameX += 1 ;
+                    //se reinicia la animacion si llega al final
+                    if (this.frameX > this.numFramesxAction) {
+        
+                        this.move=0;
+                        this.position.y = this.inity;
+                        this.position.x = this.initx;
+                        this.dead = false;
+                    } 
+                }
+            }
+            
             this.frameCount += 1;
             if (this.frameCount > this.numFramexSprite) {
                 this.frameCount = 0;

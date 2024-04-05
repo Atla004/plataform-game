@@ -53,6 +53,10 @@ class Platform {
         } 
     }
 
+    drawImage(img) {
+        this.ctx.drawImage(img, this.position.x, this.position.y, this.position.width, this.position.height);
+    }
+
 
  
 }

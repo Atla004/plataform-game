@@ -159,8 +159,10 @@ let levels = {
             let door = new Platform(ctx, canvas, 600, 250, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
+            let platform2 = new Platform(ctx, canvas,200, 100, 50, 50,"red"); // crea plataforma ( la dibuja con metodo draw())
+            let collisionplatform2 = new CollisionManager(character, platform2); // aplica las colisiones con  metodo applyCollision(ctx)
+  
             
-
             
             // Limpiar el canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -179,8 +181,11 @@ let levels = {
 
 
             //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
+
             
-            
+            if(collisionplatform2.checkcollision()){
+                character.dead = true;
+            }
 
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
@@ -252,7 +257,10 @@ let levels = {
             
             
             if(levels[2].trigger){
-                plataforma1.draw();
+                let x= new Image()
+                x.src = 'public/pua.jpg'
+    
+                plataforma1.drawImage(x);
                 collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
             }
             
