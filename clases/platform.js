@@ -47,10 +47,11 @@ class Platform {
 
 
     movePlatform(){
-        this.position.x += this.movimiento;
+        this.position.y = this.movimiento +this.position.y;
+
         if (this.position.x + this.position.width> this.canvas.width || this.position.x < 0) {
             this.movimiento = -this.movimiento;
-        } 
+        }  
     }
 
     drawImage(img) {

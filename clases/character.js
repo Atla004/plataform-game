@@ -120,7 +120,7 @@ class Character {
             this.initialSpriteHeight + this.frameY * 32,
             this.spriteWidth+3,
             this.spriteHeight+3,
-            this.direction === -1 ? -this.position.x - this.position.width : this.position.x,
+            this.direction === -1 ? -this.position.x - this.position.width+3 : this.position.x,
             this.position.y,
             this.position.width,
             this.position.height
@@ -189,18 +189,14 @@ class Character {
     }
     
     updateHitbox() {
-        if(this.direction === -1) {
 
-            this.hitbox.position.x = this.position.x +15;
-            this.hitbox.position.y = this.position.y + 5;
-            this.hitbox.position.width = this.position.width-25;
-            this.hitbox.position.height = this.position.height- 10;
-        }else{
-        this.hitbox.position.x = this.position.x + 10;
+        this.hitbox.position.x = this.position.x + 12;
         this.hitbox.position.y = this.position.y +5;
         this.hitbox.position.width = this.position.width -25;
-        this.hitbox.position.height = this.position.height - 10;
-        }
+        this.hitbox.position.height = this.position.height - 12;
+        
+
+
         
 
         //this.drawHitbox();
@@ -287,7 +283,8 @@ class Character {
         };
         
         updateSound(); //actualiza sonidos
-        updateFrame(); //actualiza el sprite para crear animacion   
+        updateFrame(); //actualiza el sprite para crear animacion 
+  
         updatePosition(); //actualiza posicion para siguiente ciclo
         this.updateHitbox();
 

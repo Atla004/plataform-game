@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level =2;
+let level =1;
 let levels = {
     collision: {
         apply: ()=>{
@@ -109,8 +109,8 @@ let levels = {
         },
         1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 0, 0,
+            0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46,
+            0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
@@ -138,6 +138,21 @@ let levels = {
             19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
             19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
             19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
+        3:[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+            9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9,
+            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
     },
     1: {
         initx: 200,
@@ -210,7 +225,7 @@ let levels = {
             levels.collision.apply();
             
             //puerta
-            let door = new Platform(ctx, canvas, 710, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let door = new Platform(ctx, canvas, 780, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
             let plataforma1 = new Platform(ctx, canvas, 600, 365, 40, 80,"rgb(69,238,221)") //?
@@ -233,7 +248,7 @@ let levels = {
 
             let detect2 = new Platform(ctx, canvas, 60, 108, 50, 70,"red") //?
             let colisiondetect2 = new CollisionManager ( character, detect2); //?
-            
+            character.drawHitbox
             
             
             
@@ -301,7 +316,6 @@ let levels = {
             
             
             if(colisionDoor.applyDoor()){
-                level=0;
                 change= true;
                 levels[2].trigger = true;
 
@@ -310,6 +324,62 @@ let levels = {
             } //entro en la puerta
 
         }
+    },
+    3:{
+        initx:60,
+        inity:200,
+        trigger: true,
+        init:()=>{
+            //Dibuja el fondo del nivel
+            levelbackground.src = 'levels/map.png';
+
+            //Crea las colisiones del nivel
+            levels.collision.apply(); 
+            character.initx =     levels[level].initx // punto de partida del jugador
+            character.inity =    levels[level].inity  // punto de partida del jugador
+
+            
+            //puerta
+            
+            let door = new Platform(ctx, canvas, 720, 250, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
+
+            
+
+  
+            
+            
+            // Limpiar el canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            
+            //añadir el fondo
+            ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height); 
+            
+            
+            door.drawDoor(); // dibuja la puerta
+            character.draw(); //Dibuja el personaje
+            
+            
+            //platform1.movePlatform()
+            //platform1.position.y -=2
+            //collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
+            
+            
+            //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
+            
+            
+            // actualizar los valores de posicion del personaje par a el siguiente frame
+            character.update();
+            //platform1.draw()
+            //collisionplatform1.draw(ctx); //dibuja las plataformas
+            
+            if(colisionDoor.applyDoor()){
+                change= true;
+            } //entro en la puerta
+
+        }
+
     }
 }
 
@@ -320,6 +390,11 @@ function draw() {
     levelsoundtrack.play();
     movement();
     
+    if(levels[3].trigger){
+        //var platform1 = new Platform(ctx, canvas, 250, 288, 450, 500,'blue');
+        //var collisionplatform1 = new CollisionManager(character, platform1);
+        levels[3].trigger = false
+        }
     
     
     levels[level].init();
@@ -328,7 +403,13 @@ function draw() {
     
     if (change){
         level++;
+        character.position.x = levels[level].initx;
+        character.position.y = levels[level].inity;
+        character.velocidad.dx = 0;
+        character.velocidad.dy= 0;
         character.update();
+        character.velocidad.dx = 0;
+        character.velocidad.dy= 0;
         levels[level].init();
         character.position.x = levels[level].initx;
         character.position.y = levels[level].inity;
