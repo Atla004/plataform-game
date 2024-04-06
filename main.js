@@ -98,7 +98,7 @@ function movement(){
 }
 
 let change= false;
-let level =1;
+let level =3;
 let levels = {
     collision: {
         apply: ()=>{
@@ -344,7 +344,9 @@ let levels = {
             let door = new Platform(ctx, canvas, 720, 250, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
 
-            
+            let plataform1 =  new Platform (ctx, canvas, 250, 288, 100, 100,'red')
+            let plataform2 =  new Platform (ctx, canvas, 350, 288, 100, 100,'blue')
+            let plataform3 =  new Platform (ctx, canvas, 380, 0, 100, 300,'gray')
 
   
             
@@ -361,18 +363,13 @@ let levels = {
             character.draw(); //Dibuja el personaje
             
             
-            //platform1.movePlatform()
-            //platform1.position.y -=2
-            //collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
-            
-            
-            //colisionDoor.drawDoor(ctx); //!dibuja el hitbox de la puerta
-            
-            
+
+            plataform1.draw()
+            plataform2.draw()
+            plataform3.draw()
+        
             // actualizar los valores de posicion del personaje par a el siguiente frame
             character.update();
-            //platform1.draw()
-            //collisionplatform1.draw(ctx); //dibuja las plataformas
             
             if(colisionDoor.applyDoor()){
                 change= true;
