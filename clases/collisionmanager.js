@@ -169,6 +169,52 @@ class CollisionManager {
         return (pie + dy > arriba && cabeza +dy < abajo && manoder + dx > izq && manoizq + dx < der)
     }
 
+    
+    checkSiteOfCollision() {
+        let block = this.blocks;
+
+        let character = this.character.hitbox.position;
+        let dx = this.character.velocidad.dx;
+        let dy = this.character.velocidad.dy;
+        let obj = block.position;
+
+        let pie  = character.y + character.height 
+        let cabeza = character.y 
+        let manoizq = character.x 
+        let manoder = character.x + character.width 
+        let arriba   = obj.y  
+        let abajo = obj.y + obj.height
+        let izq = obj.x
+        let der = obj.x + obj.width
+
+        if(manoder  > izq && manoizq < der){
+            if( cabeza < arriba){ //personaje arriba del bloque
+
+    
+                return 3;
+            }
+            if( pie > abajo){//personaje abajo del bloque
+
+
+                return 4;
+            }
+        }
+        if(pie > arriba && cabeza < abajo){
+            if(manoizq < der){ //personaje a la izquierda del bloque
+
+
+                return 1;
+            }
+            if(manoder > izq){//personaje a la derecha del bloque
+
+  
+                return 2;
+            }
+        }
+        return 0; // No collision
+    }
+
+
 }
 
 
