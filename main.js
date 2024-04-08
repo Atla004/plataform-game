@@ -97,9 +97,40 @@ function movement(){
     }
 }
 
+let platformlevel3 = new Platform(ctx, canvas, 490, 289, 210, 100,'blue');
+let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
+let count = 0;
+let countdead = 2;
 let change= false;
 let level =3;
 let levels = {
+    marcador: () => {
+        character.drawMenuCharacter(10,5,30,30);
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 18px arial';
+        ctx.fillText(`= ${countdead}`, 36, 27);
+    },
+    deathScreen: (x) => {
+        if(count < 20){
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            //texto muerte
+            ctx.fillStyle = 'white';
+            ctx.font = '20px Arial';
+            ctx.fillText(`Lives: ${countdead}`, canvas.width / 2, canvas.height / 2);
+
+            //imagen personaje
+            character.drawMenuCharacter(375,205,50,50);
+            count++;
+        } else {
+            character.deadcomplete = false;
+            countdead--;
+            count = 0;
+            x;
+        }
+
+    },
     collision: {
         apply: ()=>{
             let levelCollision1 = new levelCollision(levels.collision[level]); // colisiones del mapa
@@ -148,13 +179,16 @@ let levels = {
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
             9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9,
-            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
-            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
-            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
-            0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            9, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
+            9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
             0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
     },
     1: {
+        restart:() => {
+            
+        },
         initx: 200,
         inity: 200,
         init:()=>{
@@ -209,6 +243,9 @@ let levels = {
 
     },
     2: {
+        restart:() => {
+            levels[2].trigger = true;
+        },
         initx:60,
         inity:400,
         trigger: true,
@@ -225,7 +262,7 @@ let levels = {
             levels.collision.apply();
             
             //puerta
-            let door = new Platform(ctx, canvas, 780, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let door = new Platform(ctx, canvas, 700, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
             
             let plataforma1 = new Platform(ctx, canvas, 600, 365, 40, 80,"rgb(69,238,221)") //?
@@ -317,7 +354,7 @@ let levels = {
             
             if(colisionDoor.applyDoor()){
                 change= true;
-                levels[2].trigger = true;
+                levels[2].restart()
 
 
 
@@ -326,9 +363,17 @@ let levels = {
         }
     },
     3:{
+        restart:() => {
+            levels[3].trigger = true;
+            levels[3].trigger2 = true;
+            levels[3].trigger3 = false;
+            platformlevel3.position.y = 289;
+        },
         initx:60,
         inity:200,
         trigger: true,
+        trigger2: true,
+        trigger3: false,
         init:()=>{
             //Dibuja el fondo del nivel
             levelbackground.src = 'levels/map.png';
@@ -337,46 +382,105 @@ let levels = {
             levels.collision.apply(); 
             character.initx =     levels[level].initx // punto de partida del jugador
             character.inity =    levels[level].inity  // punto de partida del jugador
-
             
+      
             //puerta
             
             let door = new Platform(ctx, canvas, 720, 250, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
 
-            let plataform1 =  new Platform (ctx, canvas, 250, 288, 100, 100,'red')
-            let plataform2 =  new Platform (ctx, canvas, 350, 288, 100, 100,'blue')
-            let plataform3 =  new Platform (ctx, canvas, 380, 0, 100, 300,'gray')
+            let platform1 = new Platform(ctx, canvas, 250, 288, 80, 500,'rgb(112,146,190)');
+            let collisionplatform1 = new CollisionManager(character, platform1);
 
-  
+            let platform2 = new Platform(ctx, canvas, 330, 288, 160, 100,'rgb(112,146,190)');
+            let collisionplatform2 = new CollisionManager(character, platform2);
+
+
+            let invplataform = new Platform(ctx, canvas, 350, 288, 350, 10,'blue');   
+            let collisioninv = new CollisionManager(character, invplataform);
+            
+            let detect = new Platform(ctx, canvas, 386, 50, 10, 400,'rgb(112,146,190)');
+            let colisiondetect = new CollisionManager(character, detect);
+
+            let detect2 = new Platform(ctx, canvas, 250, 280, 80, 10,'rgb(112,146,190)');
+            let colisiondetect2 = new CollisionManager(character, detect2);
+
+            let  platform4 = new Platform(ctx, canvas, 50, 320, 150, 100,'rgb(153,217,234)');
+            let collisionplatform4 = new CollisionManager(character, platform4);
+            let platform5 = new Platform(ctx, canvas, 200, 355, 50, 65,'rgb(153,217,234)');
+            let collisionplatform5 = new CollisionManager(character, platform5);
+
+            let door2 = new Platform(ctx, canvas, 55, 382, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let colisionDoor2 = new CollisionManager(character, door2); // aplica las colisiones con  metodo applyCollision(ctx)
+
+
             
             
+            
+               
             // Limpiar el canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            
-            //añadir el fondo
+
             ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height); 
             
             
-            door.drawDoor(); // dibuja la puerta
-            character.draw(); //Dibuja el personaje
-            
-            
+            if(colisiondetect.checkcollision()){
+                levels[3].trigger = false;
+            } 
 
-            plataform1.draw()
-            plataform2.draw()
-            plataform3.draw()
-        
-            // actualizar los valores de posicion del personaje par a el siguiente frame
-            character.update();
+            if(levels[3].trigger){
+                platform2.draw(); //dibuja las plataformas
+                collisionplatform2.applyCollision(); //!aplica las colisiones de la plataforma
+            }else if(colisiondetect2.checkcollision()){
+
+                levels[3].trigger2 = false;
+            }
+            if(levels[3].trigger2){
+                platform1.draw(); //dibuja las plataformas
+                collisionplatform1.applyCollision(); //!aplica las colisiones de la plataforma
+ 
+            }
+
+            platformlevel3.draw()
+            platformlevel3.movePlatform(0, 0.4);
+            collisionplatformlevel3.applyCollision();
+
+
+
+            if (collisionplatform4.checkcollision() || collisionplatform5.checkcollision()){
+                platform4.draw();
+                platform5.draw();
+                
+                door2.drawDoor(); // dibuja la puerta
+            }
+      
+            if (levels[3].trigger3 == false){
+                if(collisioninv.checkcollision()){
+                    if(collisioninv.checkSiteOfCollision()==4){
+                    levels[3].trigger3 = true;
+                    }
+                }
+            }
             
-            if(colisionDoor.applyDoor()){
+            if(levels[3].trigger3){
+                invplataform.draw(); //dibuja las plataformas
+                collisioninv.applyCollision(); //!aplica las colisiones de la plataforma
+            }
+
+
+            door.drawDoor(); // dibuja la puerta
+                                   
+            character.draw(); //Dibuja el personaje
+
+            character.update();
+            if(colisionDoor2.applyDoor()){
+                level=0;
                 change= true;
+                levels[3].restart();
             } //entro en la puerta
 
         }
-
+        
     }
 }
 
@@ -387,15 +491,12 @@ function draw() {
     levelsoundtrack.play();
     movement();
     
-    if(levels[3].trigger){
-        //var platform1 = new Platform(ctx, canvas, 250, 288, 450, 500,'blue');
-        //var collisionplatform1 = new CollisionManager(character, platform1);
-        levels[3].trigger = false
-        }
-    
-    
-    levels[level].init();
-
+    if(character.deadcomplete == true){
+        levels.deathScreen(levels[level].restart());
+    }else{
+        levels[level].init();
+        levels.marcador();
+    }
     //nivel
     
     if (change){

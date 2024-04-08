@@ -3,7 +3,8 @@ class Character {
         this.ctx = ctx;
         this.canvas = canvas;
         this.initx = 1000;
-        this.inity = 1000;
+        this.inity = 100;
+        this.deadcomplete = false;
         
         this.hitbox = {
             position: {
@@ -248,6 +249,7 @@ class Character {
                         this.position.y = this.inity;
                         this.position.x = this.initx;
                         this.dead = false;
+                        this.deadcomplete = true;
                     } 
                 }
             }
@@ -297,18 +299,32 @@ class Character {
         //evita que el personaje se salga del canvas horizontalmente
         if(this.position.x + this.velocidad.dx  + this.position.width> this.canvas.width|| this.position.x + this.velocidad.dx < 0 ) { 
             this.velocidad.dx = 0;
+            this.position.y = this.inity;
+            this.position.x = this.initx;
         }
         
         //evita que el personaje se salga del canvas verticalmente
         if(this.position.y + this.velocidad.dy  + this.position.height > this.canvas.height || this.position.y + this.velocidad.dy < 0) { 
             if ( this.position.y == this.canvas.height - this.position.height) { // lleva a su posicion inicial si cae al vacio
-                this.position.y = this.inity;
-                this.position.x = this.initx;
-                this.move=0;
+                this.dead = true;
             }else{
             this.velocidad.dy = 0;
             this.position.y = this.canvas.height - this.position.height}
         }
+    }
+
+    drawMenuCharacter(x,y,w,h){
+        this.ctx.drawImage(
+            this.sprite,
+            4,
+            8,
+            20+3,
+            22+3,
+            x,
+            y,
+            w,
+            h
+        );
     }
 
     

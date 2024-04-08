@@ -46,12 +46,9 @@ class Platform {
 
 
 
-    movePlatform(){
-        this.position.y = this.movimiento +this.position.y;
-
-        if (this.position.x + this.position.width> this.canvas.width || this.position.x < 0) {
-            this.movimiento = -this.movimiento;
-        }  
+    movePlatform(x,y){
+        this.position.y += y ;
+        this.position.x += x ;
     }
 
     drawImage(img) {
