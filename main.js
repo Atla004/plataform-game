@@ -103,7 +103,7 @@ let count = 0;
 let countdead = 2;
 let change= false;
 let level =0;
-let level = 4;
+
 let levels = {
     marcador: () => {
         character.drawMenuCharacter(10,5,30,30);
