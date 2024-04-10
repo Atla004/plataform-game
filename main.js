@@ -102,7 +102,7 @@ let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
 let count = 0;
 let countdead = 2;
 let change= false;
-let level =3;
+let level = 4;
 let levels = {
     marcador: () => {
         character.drawMenuCharacter(10,5,30,30);
@@ -184,6 +184,22 @@ let levels = {
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
             9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
             0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+
+            4:[173,173,173,173,173,173,173,173,173,173,173,173,173,173,173,173,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,173,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                173,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                173,173,0,0,0,0,0,0,0,0,0,0,0,0,0,173,173,
+                173,173,0,0,0,0,0,0,0,0,0,0,0,0,0,173,173,
+                173,173,0,0,0,0,0,0,0,0,0,0,0,0,0,173,173,
+                173,173,0,0,0,0,0,0,0,0,0,0,0,0,0,173,173],
     },
     1: {
         restart:() => {
@@ -481,7 +497,88 @@ let levels = {
 
         }
         
-    }
+    },
+    4: {
+        restart:() => {
+            levels[4].trigger = true;
+            
+        },
+        initx: 60,
+        inity: 200,
+        trigger: true,
+        init:()=>{
+            //Dibuja el fondo del nivel
+            levelbackground.src = 'levels/nivel4.png';
+
+            //Crea las colisiones del nivel
+            levels.collision.apply(); 
+            character.initx =     levels[level].initx // punto de partida del jugador
+            character.inity =    levels[level].inity  // punto de partida del jugador
+
+
+            
+
+            let door = new Platform(ctx, canvas, 780, 315, 60, 38);  
+            let colisionDoor = new CollisionManager(character, door); 
+
+  
+            let platform1 = new Platform(ctx, canvas, 180, 300, 50, 10, "purple");
+            let collisionPlatform1 = new CollisionManager(character, platform1);
+            
+            let platform2 = new Platform(ctx, canvas, 300, 250, 50, 10, "purple");
+            let collisionPlatform2 = new CollisionManager(character, platform2);
+            
+            let platform3 = new Platform(ctx, canvas, 580, 300, 50, 10, "purple");
+            let collisionPlatform3 = new CollisionManager(character, platform3);
+            
+            let platform4 = new Platform(ctx, canvas, 410, 354, 50, 10, "purple");
+            let collisionPlatform4 = new CollisionManager(character, platform4);
+
+            let detect = new Platform(ctx, canvas, 290, 50, 100, 1000, "purple");
+            let colisiondetect = new CollisionManager(character, detect);
+            
+            
+            // Limpiar el canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            //añadir el fondo
+            ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height); 
+            door.drawDoor(); // dibuja la puerta
+            character.draw(); //Dibuja el personaje
+            
+            collisionPlatform1.applyCollision();
+
+            collisionPlatform3.applyCollision();
+            platform1.draw();
+            platform3.draw();
+            //detect.draw();
+            
+            if(levels[4].trigger){
+                platform2.draw();
+                
+            }else{
+                collisionPlatform4.applyCollision();
+                platform4.draw();
+
+            }
+
+            if(colisiondetect.checkcollision()){
+                levels[4].trigger = false;
+            }
+            
+            
+            if(colisionDoor.applyDoor()){
+                level=0;
+                change= true;
+                levels[4].restart();
+            }
+
+
+            character.update();
+
+
+        }
+
+    },
 }
 
 // Función para actualizar el juego cada frame
