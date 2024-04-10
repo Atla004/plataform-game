@@ -2,27 +2,6 @@ import { Character } from './clases/character.js';
 import {  CollisionManager } from './clases/collisionmanager.js';
 import { Platform } from './clases/platform.js';
 import { levelCollision } from './clases/levelCollision.js';
-// 
-/*
-Character (ctx, canvas,ancho del Personaje , Altura del Personaje)
-    .draw() //dibuja el personaje
-    .update() //actualiza la posicion del personaje
-
-levelCollision (array de colisiones del nivel)
-    .collision() //devuelve un array de colisiones para poder aplicarlas al CollisionManager
-
-CollisionManager (Personaje,  bloque al que se le quiera aplicar colision) 
-    .draw(ctx) //dibuja los bloques de colision
-    .drawDoor(ctx) // Dibuja los bloques de colision de la puerta
-    .applyCollision() //aplica las colisiones
-    .applyDoor() // cuando estas dentro de la puerta retorna true
-
-Platform (ctx, canvas, x, y, ancho,  alto, color)
-    .draw() //dibuja la plataforma
-    .drawDoor() //dibuja la puerta
-    .movePlatform() //mueve la plataforma
-*/
-
 
 // Configuración inicial
 let canvas = document.getElementById('canvas');
@@ -97,7 +76,7 @@ function movement(){
     }
 }
 
-let platformlevel3 = new Platform(ctx, canvas, 490, 289, 210, 100,'blue');
+let platformlevel3 = new Platform(ctx, canvas, 490, 289, 210, 100,'rgb(61,34,11)');
 let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
 let count = 0;
 let countdead = 2;
@@ -558,16 +537,16 @@ let levels = {
             let colisionDoor = new CollisionManager(character, door); 
 
   
-            let platform1 = new Platform(ctx, canvas, 180, 300, 50, 10, "purple");
+            let platform1 = new Platform(ctx, canvas, 180, 300, 50, 10,'rgb(220,254,255)');
             let collisionPlatform1 = new CollisionManager(character, platform1);
             
-            let platform2 = new Platform(ctx, canvas, 300, 250, 50, 10, "purple");
+            let platform2 = new Platform(ctx, canvas, 330, 250, 50, 10, 'rgb(220,254,255)');
             let collisionPlatform2 = new CollisionManager(character, platform2);
             
-            let platform3 = new Platform(ctx, canvas, 580, 300, 50, 10, "purple");
+            let platform3 = new Platform(ctx, canvas, 662, 280, 50, 10, 'rgb(220,254,255)');
             let collisionPlatform3 = new CollisionManager(character, platform3);
             
-            let platform4 = new Platform(ctx, canvas, 410, 354, 50, 10, "purple");
+            let platform4 = new Platform(ctx, canvas, 440, 354, 67, 10, 'rgb(220,254,255)');
             let collisionPlatform4 = new CollisionManager(character, platform4);
 
             let detect = new Platform(ctx, canvas, 290, 50, 100, 1000, "purple");
