@@ -102,7 +102,7 @@ let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
 let count = 0;
 let countdead = 2;
 let change= false;
-let level =3;
+let level =0;
 let levels = {
     marcador: () => {
         character.drawMenuCharacter(10,5,30,30);
@@ -184,6 +184,41 @@ let levels = {
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
             9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0,
             0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0],
+    },
+    0: {
+        init:()=>{
+
+
+            if(count < 100){
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+                ctx.fillStyle = 'white';
+                ctx.font = '25px Arial';
+                ctx.fillText(`Made by: Andres Garcia, Odiar, Victoria, Burgos`, canvas.width / 2 - 280, canvas.height / 2);
+
+    
+
+                count++;
+            } else {
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+                //texto muerte
+                ctx.fillStyle = 'white';
+                ctx.font = '25px Arial';
+                ctx.fillText(`Click to start Level `, canvas.width / 2 - 280, canvas.height / 2);
+                function handleClick() {
+                    level=1;
+                    console.log(level);
+                    canvas.removeEventListener('click', handleClick);
+                }
+        
+                // Agregar el event listener al canvas
+                canvas.addEventListener('click', handleClick);
+
+            }
+        }
     },
     1: {
         restart:() => {
@@ -488,9 +523,13 @@ let levels = {
 function draw() {
     
     //soundtrack
+    if(level ==0){
+        levels[0].init();
+    }else{
+        
+    
     levelsoundtrack.play();
     movement();
-    
     if(character.deadcomplete == true){
         levels.deathScreen(levels[level].restart());
     }else{
@@ -520,6 +559,7 @@ function draw() {
 
 
     // Llamar a la función draw() 60 veces por segundo
+    }
     requestAnimationFrame(draw);
 }
 
