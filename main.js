@@ -102,7 +102,7 @@ let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
 let count = 0;
 let countdead = 2;
 let change= false;
-let level =0;
+let level =3;
 
 let levels = {
     marcador: () => {
@@ -428,7 +428,8 @@ let levels = {
         trigger3: false,
         init:()=>{
             //Dibuja el fondo del nivel
-            levelbackground.src = 'levels/map.png';
+            levelbackground.src = 'levels/nivel33.png';
+
 
             //Crea las colisiones del nivel
             levels.collision.apply(); 
@@ -438,36 +439,36 @@ let levels = {
       
             //puerta
             
-            let door = new Platform(ctx, canvas, 720, 250, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
+            let door = new Platform(ctx, canvas, 770, 251, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
 
-            let platform1 = new Platform(ctx, canvas, 250, 288, 80, 500,'rgb(112,146,190)');
+            let platform1 = new Platform(ctx, canvas, 250, 288, 80, 500,'rgb(61,34,11)');
+
             let collisionplatform1 = new CollisionManager(character, platform1);
 
-            let platform2 = new Platform(ctx, canvas, 330, 288, 160, 100,'rgb(112,146,190)');
+            let platform2 = new Platform(ctx, canvas, 330, 288, 160, 100,'rgb(61,34,11)');
+
+
             let collisionplatform2 = new CollisionManager(character, platform2);
 
 
-            let invplataform = new Platform(ctx, canvas, 350, 288, 350, 10,'blue');   
+            let invplataform = new Platform(ctx, canvas, 330, 288, 450, 10,'rgb(61,34,11)');   
             let collisioninv = new CollisionManager(character, invplataform);
             
-            let detect = new Platform(ctx, canvas, 386, 50, 10, 400,'rgb(112,146,190)');
+            let detect = new Platform(ctx, canvas, 386, 50, 10, 400,'red');
             let colisiondetect = new CollisionManager(character, detect);
 
-            let detect2 = new Platform(ctx, canvas, 250, 280, 80, 10,'rgb(112,146,190)');
+            let detect2 = new Platform(ctx, canvas, 250, 280, 80, 10,'red');
             let colisiondetect2 = new CollisionManager(character, detect2);
 
-            let  platform4 = new Platform(ctx, canvas, 50, 320, 150, 100,'rgb(153,217,234)');
+            let  platform4 = new Platform(ctx, canvas, 50, 320, 150, 100,'rgb(194,164,131)');
             let collisionplatform4 = new CollisionManager(character, platform4);
-            let platform5 = new Platform(ctx, canvas, 200, 355, 50, 65,'rgb(153,217,234)');
+            
+            let platform5 = new Platform(ctx, canvas, 200, 355, 50, 65,'rgb(194,164,131)');
             let collisionplatform5 = new CollisionManager(character, platform5);
 
             let door2 = new Platform(ctx, canvas, 55, 382, 60, 38);  //crea la puerta ( la dibuja con metodo drawDoor()
             let colisionDoor2 = new CollisionManager(character, door2); // aplica las colisiones con  metodo applyCollision(ctx)
-
-
-            
-            
             
                
             // Limpiar el canvas
