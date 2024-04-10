@@ -102,7 +102,7 @@ let collisionplatformlevel3 = new CollisionManager(character, platformlevel3);
 let count = 0;
 let countdead = 2;
 let change= false;
-let level =3;
+let level =0;
 
 let levels = {
     marcador: () => {
