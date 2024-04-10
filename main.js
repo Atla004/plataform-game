@@ -526,7 +526,6 @@ let levels = {
 
             character.update();
             if(colisionDoor2.applyDoor()){
-                level=0;
                 change= true;
                 levels[3].restart();
             } //entro en la puerta
@@ -650,10 +649,6 @@ function draw() {
         character.position.y = levels[level].inity;
         change = false;
     }
-
-    
-
-
 
 
     // Llamar a la función draw() 60 veces por segundo
