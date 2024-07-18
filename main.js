@@ -7,6 +7,86 @@ import { levelCollision } from './clases/levelCollision.js';
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 
+// Variables para el estado del juego
+let gameStarted = false;
+
+// Función para mostrar la pantalla de inicio
+function showStartScreen() {
+    // Cargar la imagen de fondo
+    const backgroundImage = new Image();
+    backgroundImage.src = 'menu.png';
+    backgroundImage.onload = function() {
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        // Dibujar el texto y los botones
+        ctx.fillStyle = 'white';
+        ctx.font = '24px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Bienvenido a Mi Juego', canvas.width / 2, 100);
+        
+        // Botón "Empezar a jugar"
+        ctx.fillRect(canvas.width / 2 - 100, 150, 200, 50);
+        ctx.fillStyle = 'black';
+        ctx.fillText('Empezar a jugar', canvas.width / 2, 185);
+
+        // Botón "Opciones"
+        ctx.fillRect(canvas.width / 2 - 100, 220, 200, 50);
+        ctx.fillStyle = 'black';
+        ctx.fillText('Opciones', canvas.width / 2, 255);
+
+        // Botón "Cómo jugar"
+        ctx.fillRect(canvas.width / 2 - 100, 290, 200, 50);
+        ctx.fillStyle = 'black';
+        ctx.fillText('Cómo jugar', canvas.width / 2, 325);
+
+        // Botón "Salir"
+        ctx.fillRect(canvas.width / 2 - 100, 360, 200, 50);
+        ctx.fillStyle = 'black';
+        ctx.fillText('Salir', canvas.width / 2, 395);
+    };
+
+    // Escuchar clics en el canvas para detectar botones
+    canvas.addEventListener('click', function(event) {
+        const x = event.clientX - canvas.getBoundingClientRect().left;
+        const y = event.clientY - canvas.getBoundingClientRect().top;
+
+        // Comprobar qué botón se ha clicado
+        if (!gameStarted) {
+            if (x >= canvas.width / 2 - 100 && x <= canvas.width / 2 + 100) {
+                if (y >= 150 && y <= 200) {
+                    // Botón "Empezar a jugar" clicado
+                    startGame();
+                } else if (y >= 220 && y <= 270) {
+                    // Botón "Opciones" clicado
+                    // Implementar la lógica para opciones si es necesario
+                    console.log('Opciones clicado');
+                } else if (y >= 290 && y <= 340) {
+                    // Botón "Cómo jugar" clicado
+                    // Implementar la lógica para instrucciones de juego si es necesario
+                    console.log('Cómo jugar clicado');
+                } else if (y >= 360 && y <= 410) {
+                    // Botón "Salir" clicado
+                    // Implementar la lógica para salir del juego si es necesario
+                    console.log('Salir clicado');
+                }
+            }
+        }
+    });
+}
+
+// Función para iniciar el juego desde el botón "Empezar a jugar"
+function startGame() {
+    // Ocultar el botón de inicio y mostrar el canvas
+    canvas.style.display = 'block';
+    startButton.style.display = 'none';
+    gameStarted = true; // Cambiar el estado del juego a iniciado
+
+    // Inicializar el primer nivel del juego
+    levels.changeLevel(0); // Cambia el número de nivel si es necesario
+}
+
+// Llamar a la función para mostrar la pantalla de inicio al cargar el juego
+showStartScreen();
+
 // Variables para el movimiento del personaje
 let rightPressed = false;
 let leftPressed = false;
@@ -127,28 +207,28 @@ let levels = {
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
             0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0,
-            0, 0, 46, 46, 46, 0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 0, 0,
+            0, 0, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 46, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0, 0
         ],
-        2:[19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 0, 0, 19, 19, 19, 19, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19,
-            19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
+        2:[, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            46, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            46, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56,
+            46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46, 46],
         3:[9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
@@ -321,125 +401,98 @@ let levels = {
         }
 
     },
-    2: {
-        restart:() => {
-            levels[2].trigger = true;
-        },
-        initx:60,
-        inity:400,
-        trigger: true,
-        trigger2: false,
-        init:()=>{
-
-            
-            character.initx =     levels[level].initx // punto de partida del jugador
-            character.inity =    levels[level].inity  // punto de partida del jugador
-            
-            levelbackground.src = 'levels/lvl2.png';
-
-
-            levels.collision.apply();
-            
-            //puerta
-            let door = new Platform(ctx, canvas, 700, 415, 60, 33);  //crea la puerta ( la dibuja con metodo drawDoor()
-            let colisionDoor = new CollisionManager(character, door); // aplica las colisiones con  metodo applyCollision(ctx)
-            
-            let plataforma1 = new Platform(ctx, canvas, 600, 365, 40, 80,"rgb(69,238,221)") //?
-            let collisionplatform1 = new CollisionManager ( character,plataforma1); //?
-            
-            let radius = 100;
-            let p= new Image()
-            p.src = '/levels/PUAS.png'
-
-            let tile= new Image()
-            tile.src = '/levels/tilset.png'
-            
-            let detect = new Platform(ctx, canvas, 450, 300, 10, 50,"rgb(112, 146, 190)") //?
-            let colisiondetect = new CollisionManager ( character,detect); //?
-
-
-            
-            let puas = new Platform(ctx, canvas, 100, 108, 100, 70,"red") //?
-            let colisionpuas = new CollisionManager ( character, puas); //?
-
-            let detect2 = new Platform(ctx, canvas, 60, 108, 50, 70,"red") //?
-            let colisiondetect2 = new CollisionManager ( character, detect2); //?
-            character.drawHitbox
-            
-            
-            
-            //añadir el fondo
-            let x = character.position.x;
-            let y = character.position.y;
-            let width = character.position.width;
-            let height = character.position.height;
-            
-            
-            
-            // Limpiar el canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'black';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            //TODO Creacion del circulo donde se va a ver el personaje 
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(x+ width/2, y+ height/2, radius, 0, Math.PI * 2);
-            ctx.clip(); 
-            
-            // Background
-            ctx.drawImage(levelbackground, 0, 0);
-            
-            door.drawDoor(); // dibuja la puerta
-            
-            if(colisiondetect.checkcollision()){
-                levels[2].trigger = false;
-            }
-            
-            
-            
-
-            if(colisiondetect2.checkcollision()){
-                levels[2].trigger2 = true;
-                character.dead = true;
-                levels[2].trigger = true;
-                
-            }
-
-            if(character.dead == true){
-                puas.drawImage(p);
-            }
-            
-
-            
-            if(levels[2].trigger){
-                plataforma1.drawImage(tile);
-                collisionplatform1.applyCollision() //!colision de plataforma para evitar llegar al level 3
-            }
-
-            // colisionpuas.draw(ctx);
-            
-            
-            //TODO cierre del circulo donde se va a ver el personaje 
-            ctx.restore();
-
-
-            
-            character.draw(); //Dibuja el personaje
-            
-            // actualizar los valores de posicion del personaje par a el siguiente frame
-            character.update();
-            
-            
-            if(colisionDoor.applyDoor()){
-                change= true;
-                levels[2].restart()
-
-
-
-            } //entro en la puerta
-
+    2: {restart: () => {
+        levels[2].trigger = true;
+    },
+    initx: canvas.width / 2,
+    inity: canvas.height / 2,
+    trigger: true,
+    trigger2: false,
+    init: () => {
+        character.initx = canvas.width / 2; // punto de partida del jugador en el centro del canvas
+        character.inity = canvas.height / 2; // punto de partida del jugador en el centro del canvas
+    
+        levelbackground.src = 'levels/level2.png';
+    
+        levels.collision.apply();
+    
+        // Puerta derecha
+        let doorRight = new Platform(ctx, canvas, 630, 360, 60, 33); // crea la puerta derecha
+        let colisionDoorRight = new CollisionManager(character, doorRight); // aplica las colisiones con metodo applyCollision(ctx)
+    
+        // Puerta izquierda
+        let doorLeft = new Platform(ctx, canvas, 120, 360, 60, 33); // crea la puerta izquierda
+        let colisionDoorLeft = new CollisionManager(character, doorLeft); // aplica las colisiones con metodo applyCollision(ctx)
+    
+        // Comentamos o eliminamos la creación de la plataforma y su colisión
+        // let plataforma1 = new Platform(ctx, canvas, 600, 365, 40, 80, "rgb(69,238,221)");
+        // let collisionplatform1 = new CollisionManager(character, plataforma1);
+    
+        let tile = new Image();
+        tile.src = '/levels/tilset.png';
+    
+        let detect = new Platform(ctx, canvas, 450, 300, 10, 50, "rgb(112, 146, 190)");
+        let colisiondetect = new CollisionManager(character, detect);
+    
+        let detect2 = new Platform(ctx, canvas, 60, 108, 50, 70, "red");
+        let colisiondetect2 = new CollisionManager(character, detect2);
+        character.drawHitbox;
+    
+        // Añadir el fondo
+        let x = character.position.x;
+        let y = character.position.y;
+        let width = character.position.width;
+        let height = character.position.height;
+    
+        // Limpiar el canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+        // Background: Escalar la imagen al tamaño del canvas
+        ctx.drawImage(levelbackground, 0, 0, canvas.width, canvas.height);
+    
+        // Dibujar las puertas
+        // doorRight.drawDoor();
+        // doorLeft.drawDoor();
+    
+        if (colisiondetect.checkcollision()) {
+            levels[2].trigger = false;
         }
+    
+        if (colisiondetect2.checkcollision()) {
+            levels[2].trigger2 = true;
+            character.dead = true;
+            levels[2].trigger = true;
+        }
+    
+        if (character.dead == true) {
+            puas.drawImage(p);
+        }
+    
+        if (levels[2].trigger) {
+            // Comentamos o eliminamos el dibujo de la plataforma y la aplicación de colisión
+            // plataforma1.drawImage(tile);
+            // collisionplatform1.applyCollision(); //!colision de plataforma para evitar llegar al level 3
+        }
+    
+        // colisionpuas.draw(ctx);
+    
+        // TODO cierre del circulo donde se va a ver el personaje
+        ctx.restore();
+    
+        character.draw(); // Dibuja el personaje
+    
+        // Actualizar los valores de posicion del personaje para el siguiente frame
+        character.update();
+    
+        // Verificar colisiones con ambas puertas
+        if (colisionDoorRight.applyDoor() || colisionDoorLeft.applyDoor()) {
+            change = true;
+            levels[2].restart();
+        } // entro en cualquiera de las puertas
+    }
+    
     },
     3:{
         restart:() => {
